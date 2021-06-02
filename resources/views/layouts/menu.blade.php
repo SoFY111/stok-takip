@@ -7,7 +7,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
+        <a href="{{route('dashboard')}}" class="sidebar-brand d-flex align-items-center justify-content-center" href="">
             <div class="sidebar-brand-text mx-3">Orgnanik mi Organik</div>
         </a>
 
@@ -15,8 +15,8 @@
         <hr class="sidebar-divider my-0">
 
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item @if(Request::segment(2) == 'panel') active @endif">
-            <a class="nav-link" href="">
+        <li class="nav-item @if(Request::segment(1) == '') active @endif">
+            <a href="{{route('dashboard')}}" class="nav-link" href="">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Panel</span></a>
         </li>
@@ -29,53 +29,46 @@
             İçerik Yönetimi
         </div>
 
+
+        <li class="nav-item @if(Request::segment(1) == 'urunler') active @endif"> <!-- urunler = products -->
+            <a href="{{route('urunler.index')}}" class="nav-link" href="">
+                <i class="fab fa-product-hunt"></i>
+                <span>Ürün Tanımlama</span></a>
+        </li>
+
+        <li class="nav-item @if(Request::segment(1) == 'markalar') active @endif"><!-- markalar = brands -->
+            <a href="{{route('markalar.index')}}" class="nav-link" href="">
+                <i class="far fa-copyright"></i>
+                <span>Markalar</span></a>
+        </li>
+
+        <li class="nav-item @if(Request::segment(1) == 'birimler') active @endif"><!-- markalar = brands -->
+            <a href="{{route('birimler.index')}}" class="nav-link" href="">
+                <i class="far fa-copyright"></i>
+                <span>Birimler</span></a>
+        </li>
+
+
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link @if(Request::segment(2) == 'kategoriler') in @else collapsed @endif" href="#" data-toggle="collapse" data-target="#collapseTwo"
+            <a class="nav-link @if(Request::segment(2) == 'kategoriler') in @else collapsed @endif" href="#"
+               data-toggle="collapse" data-target="#collapseTwo"
                aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-edit"></i>
-                <span>Kategoriler</span>
+                <span>Ürün İşlemleri</span>
             </a>
-            <div id="collapseTwo" class="collapse @if(Request::segment(2) == 'kategoriler' or Request::segment(2) == 'kategori') show @endif" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Kategori İşlemleri</h6>
-                    <a class="collapse-item @if(Request::segment(2) == 'kategori' and Request::segment(3) == 'ana') active @endif"  href="">Trendyol Ana Kategoriler </a>
-                    <a class="collapse-item @if(Request::segment(2) == 'kategori' and Request::segment(3) == 'alt') active @endif"  href="">Trendyol Alt Kategoriler </a>
-
-                </div>
-            </div>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-               aria-expanded="true" aria-controls="collapseUtilities">
-                <i class="fas fa-fw fa-wrench"></i>
-                <span>Markaly Eşleştirme</span>
-            </a>
-            <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                 data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Eşleştirme:</h6>
-                    <a class="collapse-item @if(Request::segment(2) == 'musterikategori') active @endif"  href="">Müşteri Kategori </a>
-                </div>
-            </div>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link @if(Request::segment(2) == 'urunler') in @else collapsed @endif" href="#" data-toggle="collapse" data-target="#collapseThree"
-               aria-expanded="true" aria-controls="collapseThree">
-                <i class="fas fa-fw fa-edit"></i>
-                <span>Ürünler</span>
-            </a>
-            <div id="collapseThree" class="collapse @if(Request::segment(2) == 'urunler') show @endif" aria-labelledby="headingThree" data-parent="#accordionSidebar">
+            <div id="collapseTwo"
+                 class="collapse @if(Request::segment(2) == 'kategoriler' or Request::segment(2) == 'kategori') show @endif"
+                 aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Ürün İşlemleri</h6>
-                    <a class="collapse-item @if(Request::segment(2) == 'urunler') active @endif"  href="">Tüm Ürünler</a>
+                    <a class="collapse-item @if(Request::segment(2) == 'kategori' and Request::segment(3) == 'ana') active @endif"
+                       href="">Trendyol Ana Kategoriler </a>
+                    <a class="collapse-item @if(Request::segment(2) == 'kategori' and Request::segment(3) == 'alt') active @endif"
+                       href="">Trendyol Alt Kategoriler </a>
                 </div>
             </div>
         </li>
-
-        <!-- Nav Item - Utilities Collapse Menu -->
 
 
         <!-- Divider -->

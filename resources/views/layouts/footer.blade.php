@@ -67,8 +67,8 @@
 <script src="{{asset('back/')}}/js/demo/datatables-demo.js"></script>
 
 <!-- Toastr -->
-{{--@toastr_js
-@toastr_render--}}
+@toastr_js
+@toastr_render
 @yield('js')
 
 </body>

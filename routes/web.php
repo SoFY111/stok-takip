@@ -2,8 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 
+//CONTROLLERS
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\UnitController;
 
 
 Route::group(['middleware' => 'isLogin'], function(){
@@ -16,5 +20,12 @@ Route::group(['middleware' => 'isLogin'], function(){
 
 Route::group(['middleware' => 'isLogged'], function(){
     Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
+
+    Route::resource('urunler', ProductController::class);
+
+    Route::resource('markalar', BrandController::class);
+
+    Route::resource('birimler', UnitController::class);
+
     Route::get('/cikis', [AuthController::class, 'logout'])->name('logout');
 });

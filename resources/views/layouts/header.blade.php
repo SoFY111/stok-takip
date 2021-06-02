@@ -25,6 +25,6 @@
     <link href="{{asset('back/')}}/css/sb-admin-2.min.css" rel="stylesheet">
 
     <!-- Toastr -->
-{{--    @toastr_css--}}
+    @toastr_css
     @yield('css')
 </head>
