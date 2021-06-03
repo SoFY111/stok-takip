@@ -21,8 +21,8 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $brands = Brand::all();
-        $units = Unit::all();
+        $brands = Brand::where('isActive', 1)->get();
+        $units = Unit::where('isActive', 1)->get();
         return view('brand.index', compact('units', 'brands'));
     }
 
@@ -46,7 +46,7 @@ class BrandController extends Controller
     {
         $lowerBrandName = Str::lower($request->brandName);
 
-        $brand = Brand::where('name', $lowerBrandName)->get()->count();
+        $brand = Brand::where('isActive', 1)->where('name', $lowerBrandName)->get()->count();
         if ($brand > 0) {
             toastr()->error('Aynı isme sahip başka marka bulunmaktadır. Başka marka ismi giriniz.');
             return redirect()->route('markalar.index');

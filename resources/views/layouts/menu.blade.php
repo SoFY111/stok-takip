@@ -36,40 +36,49 @@
                 <span>Ürün Tanımlama</span></a>
         </li>
 
-        <li class="nav-item @if(Request::segment(1) == 'markalar') active @endif"><!-- markalar = brands -->
-            <a href="{{route('markalar.index')}}" class="nav-link" href="">
-                <i class="far fa-copyright"></i>
-                <span>Markalar</span></a>
-        </li>
-
-        <li class="nav-item @if(Request::segment(1) == 'birimler') active @endif"><!-- markalar = brands -->
-            <a href="{{route('birimler.index')}}" class="nav-link" href="">
-                <i class="far fa-copyright"></i>
-                <span>Birimler</span></a>
-        </li>
-
-
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
             <a class="nav-link @if(Request::segment(2) == 'kategoriler') in @else collapsed @endif" href="#"
                data-toggle="collapse" data-target="#collapseTwo"
                aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-edit"></i>
-                <span>Ürün İşlemleri</span>
+                <i class="fas fa-boxes"></i>
+                <span>Stok İşlemleri</span>
             </a>
             <div id="collapseTwo"
                  class="collapse @if(Request::segment(2) == 'kategoriler' or Request::segment(2) == 'kategori') show @endif"
                  aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Ürün İşlemleri</h6>
+                    <h6 class="collapse-header">Stok İşlemleri</h6>
                     <a class="collapse-item @if(Request::segment(2) == 'kategori' and Request::segment(3) == 'ana') active @endif"
-                       href="">Trendyol Ana Kategoriler </a>
+                       href="">
+                        <i class="fas fa-truck mr-1" style="opacity: .7 !important;"></i>
+                        Stok Girişi
+                    </a>
                     <a class="collapse-item @if(Request::segment(2) == 'kategori' and Request::segment(3) == 'alt') active @endif"
-                       href="">Trendyol Alt Kategoriler </a>
+                       href="">
+                        <i class="fas fa-truck mr-1 fa-rotate-180 fa-flip-horizontal" style="opacity: .7 !important;"></i>
+                        Stok Çıkışı
+                    </a>
+                    <a class="collapse-item @if(Request::segment(2) == 'kategori' and Request::segment(3) == 'alt') active @endif"
+                       href="">
+                        <i class="fas fa-history mr-1" style="opacity: .7 !important;"></i>
+                        Sok Geçmişi
+                    </a>
                 </div>
             </div>
         </li>
 
+        <li class="nav-item @if(Request::segment(1) == 'markalar') active @endif"><!-- markalar = brands -->
+            <a href="{{route('markalar.index')}}" class="nav-link" href="">
+                <i class="fas fa-copyright"></i>
+                <span>Markalar ve Birimler</span></a>
+        </li>
+
+        <li class="nav-item @if(Request::segment(1) == 'kategoriler') active @endif"><!-- markalar = brands -->
+            <a href="{{route('kategoriler.index')}}" class="nav-link" href="">
+                <i class="fas fa-sitemap"></i>
+                <span>Kategoriler</span></a>
+        </li>
 
         <!-- Divider -->
         <hr class="sidebar-divider">
@@ -89,7 +98,7 @@
                 <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                     <i class="fa fa-bars"></i>
                 </button>
-
+                <h3 class="ml-3 mt-2">@yield('headerTitle')</h3>
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav ml-auto">
 

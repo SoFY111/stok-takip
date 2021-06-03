@@ -16,6 +16,7 @@ class UnitTableCreate extends Migration
         Schema::create('units', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->boolean('isActive')->default(1);
         });
     }
 
