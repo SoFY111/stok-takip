@@ -13,10 +13,10 @@
                         @csrf
                         <div class="form-group">
                             <label>Kategori Adı</label>
-                            <input type="text" name="name" class="form-control"/>
+                            <input type="text" id="addCategoryInput" name="name" class="form-control"/>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-block">Ekle</button>
+                            <button type="submit" id="addCategoryButton" class="btn btn-primary btn-block">Ekle</button>
                         </div>
                     </form>
                 </div>
@@ -84,11 +84,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="{{route('kategoriler.update')}}">
+                    <form method="post" action="{{route('kategori.update')}}">
                         @csrf
                         <div class="form-group">
                             <input type="hidden" name="id" id="editModalHiddenInput" value="0"/>
-                            <input type="text" id="editModalInput" name="name" class="form-control"/>
+                            <input type="text" id="editModalInput" name="name" class="form-control" />
                         </div>
                 </div>
                 <div class="modal-footer">
@@ -104,6 +104,16 @@
 @section('js')
     <script>
         $(document).ready(function () {
+
+            $('#addCategoryButton').prop('disabled', true);
+            $('#addCategoryInput').focus()
+                .keyup(function (){
+                    if ($(this).val().length > 0) {
+                        $('#addCategoryButton').prop('disabled', false);
+                    } else $('#addCategoryButton').prop('disabled', true);
+            });
+
+
             $('#categoryTable').DataTable({
                 "order": [[0, "asc"]],
                 "aLengthMenu": [5, 10, 25],
@@ -122,6 +132,19 @@
                     }
                 });
             })
+
+            $('#editModal').on('shown.bs.modal', function () {
+                $('#editModalInput').focus();
+            })
+
+            $('#editModalInput').keyup(function (){
+                $('input[type="submit"]').prop('disabled', true);
+                $('input[type="text"]').keyup(function () {
+                    if ($(this).val().length > 0) {
+                        $('#unitModalFormButton').prop('disabled', false);
+                    } else $('#unitModalFormButton').prop('disabled', true);
+                });
+            });
         });
     </script>
 @endsection

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 //MODELS
+use App\Models\Category;
 
 class CategoryController extends Controller
 {
@@ -123,11 +124,28 @@ class CategoryController extends Controller
     }
 
     public function getCategoryName(Request $request){
-        $category = Category::findOrFail($request->id) ?? abort(403, 'Böyle bir kategori yok');
+        $category = Category::whereId($request->id) ?? abort(403, 'Böyle bir kategori yok');
         return response()->json($category->name);
     }
 
-    public function updateCategoryName(){
+    public function updateCategoryName(Request $request){
 
+        try {
+
+            $lowerCategoryName = Str::lower($request->name);
+
+            $category = Category::where('isActive', 1)->where('name', $lowerCategoryName)->get()->count();
+            if ($category > 0) {
+                toastr()->error('Aynı isme sahip başka kategori bulunmaktadır. Başka kategori ismi giriniz.');
+                return redirect()->route('kategoriler.index');
+            }
+
+            Category::whereId($request->id)->update(['name' => $request->name]);
+            toastr()->success('Kategori başarılı bir şekilde güncellendi.');
+            return redirect()->back();
+        } catch (Exception $e) {
+            toastr()->error('Kategori güncellenemedi');
+            return redirect()->back();
+        }
     }
 }

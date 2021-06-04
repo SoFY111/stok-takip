@@ -6,6 +6,7 @@ use App\Models\Brand;
 use App\Models\Unit;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use mysql_xdevapi\Exception;
 
 //MODELS
@@ -60,7 +61,16 @@ class ActionsController extends Controller
     {
         if ($request->action == "1") {
             try {
-                Brand::findOrFail($request->id)->update(['name'=>$request->name]);
+
+                $lowerBrandName = Str::lower($request->name);
+
+                $brand = Brand::where('isActive', 1)->where('name', $lowerBrandName)->get()->count();
+                if ($brand > 0) {
+                    toastr()->error('Aynı isme sahip başka marka bulunmaktadır. Başka marka ismi giriniz.');
+                    return redirect()->route('markalar.index');
+                }
+
+                Brand::whereId($request->id)->update(['name'=>$request->name]);
                 toastr()->success('Marka başarılı bir şekilde güncellendi.');
                 return redirect()->back();
             } catch (Exception $e) {
@@ -69,7 +79,16 @@ class ActionsController extends Controller
             }
         }
         try {
-            Unit::findOrFail($request->id)->update(['name' => $request->name]);
+
+            $lowerUnitName = Str::lower($request->name);
+
+            $unit = Unit::where('isActive', 1)->where('name', $lowerUnitName)->get()->count();
+            if ($unit > 0) {
+                toastr()->error('Aynı isme sahip başka birim bulunmaktadır. Başka birim giriniz.');
+                return redirect()->route('markalar.index');
+            }
+
+            Unit::whereId($request->id)->update(['name' => $request->name]);
             toastr()->success('Birim başarılı bir şekilde güncellendi.');
             return redirect()->back();
         } catch (Exception $e) {

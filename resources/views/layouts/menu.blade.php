@@ -33,7 +33,7 @@
         <li class="nav-item @if(Request::segment(1) == 'urunler') active @endif"> <!-- urunler = products -->
             <a href="{{route('urunler.index')}}" class="nav-link" href="">
                 <i class="fab fa-product-hunt"></i>
-                <span>Ürün Tanımlama</span></a>
+                <span>Ürünler</span></a>
         </li>
 
         <!-- Nav Item - Pages Collapse Menu -->
