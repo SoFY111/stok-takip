@@ -22,6 +22,7 @@ class ProductTableCreate extends Migration
             $table->unsignedBigInteger('brandId')->default(1)->nullable();
             $table->unsignedBigInteger('unitId');
             $table->integer('taxRate');
+            $table->integer('buyingPrice');
             $table->integer('salesPrice');
             $table->string('description')->nullable();
             $table->tinyInteger('followStock')->comment('0:hayır, 1:evet');
