@@ -40,10 +40,12 @@
                                                data-target="#editModal"
                                                style="font-size: 18px;"></i>
                                         </a>
-                                        <a href="{{route('marka.destroy', $brand->id)}}">
+                                        @if($brand->id !== 1)
+                                                <a href="{{route('marka.destroy', $brand->id)}}">
                                             <i class="fas fa-times-circle text-danger"
                                                style="font-size: 18px;"></i>
                                         </a>
+                                            @endif
                                     </span>
                                     </td>
                                 </tr>

@@ -1,0 +1,19 @@
+.sm-col-custom-1 {
+    flex: 0 0 4.16666%;
+    max-width: 4.16666%;
+}
+
+.followStockRadioButton {
+    height: 24px;
+    width: 15px;
+}
+
+.cursorPointer{
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 550px) {
+    .ml-s-2 {
+        margin-left: .75rem !important
+    }
+}

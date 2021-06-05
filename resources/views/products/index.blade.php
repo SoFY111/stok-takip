@@ -5,7 +5,7 @@
     {{--  container  --}}
     <div class="d-flex flex-column ">
         <div class="row mb-4 d-flex flex-row align-items-center justify-content-center">
-            <a role="button" class="btn btn-primary mt-1 mb-xs-5">Ürün Ekle</a>
+            <a href="{{route('urunler.create')}}" role="button" class="btn btn-primary mt-1 mb-xs-5 marginBottom-s-1">Ürün Ekle</a>
             <div class="p-1 bg-light rounded rounded-pill shadow-sm ml-3 flex-fill">
                 <div class="input-group">
                     <form class="input-group">
@@ -19,7 +19,7 @@
         </div>
         <div class="row d-flex align-items-center justify-content-center">
             <div class="d-flex flex-column w-100">
-                <div class="d-flex flex-row w-100 mb-2">
+                <div class="d-flex flex-row w-100 mb-1 header-s">
                     <span class="text-center" style="width: 5%;">#</span>
                     <span style="width: 35%;">Adı</span>
                     <span class="text-center" style="width: 15%;">Stok Miktarı</span>
@@ -28,17 +28,18 @@
                     <span class="text-center" style="width: 15%;">İşlemler</span>
                 </div>
                 @for($i=0;$i<13;$i++)
-                    <div class="d-flex flex-row align-items-center justify-content-center w-100 mt-2 bg-white p-2 rounded">
-                        <span class="text-center" style="width: 5%;">1</span>
-                        <span style="width: 35%;">2</span>
-                        <span class="text-center" style="width: 15%;">3</span>
-                        <span class="text-center" style="width: 15%;">4</span>
-                        <span class="text-center" style="width: 15%;">5</span>
-                        <span class="text-center" style="width: 15%;">
-                        <a href="" class="btn btn-sm btn-secondary" title="Sonuçlar"><i class="fa fa-info-circle"></i></a>
-                        <a href="" class="btn btn-sm btn-primary" title="Güncelle"><i class="fa fa-pen"></i></a>
-                        <a href="" class="btn btn-sm btn-danger" title="Sil"><i class="fa fa-times"></i></a>
-                    </span>
+                    <div class="hover hover-s d-flex flex-sm-row flex-row align-items-center justify-content-center w-100 mt-2 bg-white p-2 rounded flex-sm-row ">
+                        <span class="text-center hoverItem-s" style="width: 5%;">
+                            <img src="{{asset('images/test-image.jpg')}}" width="40" height="40" class="rounded image-s">
+                        </span>
+                        <span class="hoverItem-s" style="width: 35%;">2</span>
+                        <span class="text-center hoverItem-s" style="width: 15%;">3</span>
+                        <span class="text-center hoverItem-s" style="width: 15%;">4</span>
+                        <span class="text-center hoverItem-s" style="width: 15%;">5</span>
+                        <span class="text-center hoverItem-s buttons-s" style="width: 15%;">
+                            <a href="" class="btn btn-sm btn-primary" title="Güncelle"><i class="fa fa-pen"></i></a>
+                            <a href="" class="btn btn-sm btn-danger" title="Sil"><i class="fa fa-times"></i></a>
+                        </span>
                     </div>
                 @endfor
             </div>

@@ -1,16 +1,37 @@
-.table{
-    display:table;
-    width:auto;
+.hover{
+    transition: all .3s ease-in-out !important;
+    box-sizing: border-box;
+}
 
+.hover:hover{
+    background-color: rgba(0,0,0,.02) !important;
 }
-.table-row{
-    display:table-row;
-    width:auto;
-    clear:both;
-}
-.table-col{
-    float:left;
-    display:table-column;
-    width:200px;
-    border:1px solid  #ccc;
+
+
+@media only screen and (max-width: 550px){
+    .header-s{
+        display: none !important;
+    }
+    .image-s{
+        width: 60px;
+        height: 60px;
+    }
+    .hover-s{
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    .hoverItem-s{
+        width: 100% !important;
+        margin-bottom: 5px;
+        text-align: center !important;
+    }
+
+    .marginBottom-s-1{
+        margin-bottom: .5rem!important;
+    }
+
+    .buttons-s{
+        display: none;
+    }
 }

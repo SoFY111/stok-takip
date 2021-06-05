@@ -23,7 +23,7 @@ class BrandController extends Controller
     {
         $brands = Brand::where('isActive', 1)->get();
         $units = Unit::where('isActive', 1)->get();
-        return view('brand.index', compact('units', 'brands'));
+        return view('brands.index', compact('units', 'brands'));
     }
 
     /**
