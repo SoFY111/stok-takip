@@ -284,7 +284,7 @@
                 console.log(val);
             });
 
-            $('#buyingPrice').focusout(function (){
+            $('#buyingPrice').keyup(function (){
                 let price = $(this).val();
                 const selectedTaxRate = $('#taxRate').children("option:selected").val();
 
@@ -294,16 +294,34 @@
                 }
 
                 const money = Number(price).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-                $('#buyingPrice').val(money);
+
                 $('#buyingPriceSmallText').text(money+'₺');
 
                 const guessSalesPrice = (Number(price) + (Number(price) * Number(selectedTaxRate) / 100)).toFixed(2);
                 $('#salesPrice').val(guessSalesPrice);
                 $('#salesPriceSmallText').text(guessSalesPrice+'₺');
 
+            }).focusout(function (){
+                let price = $(this).val();
+                if(price.lastIndexOf(',') != -1){
+                    const index = price.lastIndexOf(',');
+                    price = price.substring(0, index) + '.' + price.substring(index + 1);
+                }
+                const money = Number(price).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+                $('#buyingPrice').val(money);
             });
+            
+            $('#salesPrice').keyup(function (){
+                let price = $(this).val();
 
-            $('#salesPrice').focusout(function (){
+                if(price.lastIndexOf(',') != -1){
+                    const index = price.lastIndexOf(',');
+                    price = price.substring(0, index) + '.' + price.substring(index + 1);
+                }
+
+                const money = Number(price).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+                $('#salesPriceSmallText').text(money+'₺');
+            }).focusout(function (){
                 let price = $(this).val();
 
                 if(price.lastIndexOf(',') != -1){
@@ -313,7 +331,6 @@
 
                 const money = Number(price).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
                 $('#salesPrice').val(money);
-                $('#salesPriceSmallText').text(money+'₺');
             });
 
             $('#taxRate').change(function (){
