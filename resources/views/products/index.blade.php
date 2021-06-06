@@ -27,6 +27,25 @@
                     <span class="text-center" style="width: 15%;">Barkod Numarası</span>
                     <span class="text-center" style="width: 15%;">İşlemler</span>
                 </div>
+                @foreach($products as $product)
+                    <div class="hover hover-s d-flex flex-sm-row flex-row align-items-center justify-content-center w-100 mt-2 bg-white p-2 rounded flex-sm-row ">
+                        <span class="text-center hoverItem-s" style="width: 5%;">
+                            <img src="{{$product->image ? $product->image : asset('images/unknown-pp.png')}}" width="40" height="40" class="rounded image-s">
+                        </span>
+                        <span class="hoverItem-s" style="width: 35%;">{{$product->name}}</span>
+                        <span class="text-center hoverItem-s" style="width: 15%;">50</span>
+                        <span class="text-center hoverItem-s" style="width: 15%;">{{$product->sellingPrice ? $product->sellingPrice. '₺' : 'Belirtilmedi'}}</span>
+                        <span class="text-center hoverItem-s" style="width: 15%;">
+                            <?php
+                                echo DNS1D::getBarcodeSVG($product->code, 'EAN13', 1, 40); //EAN13 barCode
+                             // echo DNS2D::getBarcodeSVG($product->code, 'QRCODE'); // qrCode
+                            ?></span>
+                        <span class="text-center hoverItem-s buttons-s" style="width: 15%;">
+                            <a href="" class="btn btn-sm btn-primary" title="Güncelle"><i class="fa fa-pen"></i></a>
+                            <a href="" class="btn btn-sm btn-danger" title="Sil"><i class="fa fa-times"></i></a>
+                        </span>
+                    </div>
+                @endforeach
                 @for($i=0;$i<13;$i++)
                     <div class="hover hover-s d-flex flex-sm-row flex-row align-items-center justify-content-center w-100 mt-2 bg-white p-2 rounded flex-sm-row ">
                         <span class="text-center hoverItem-s" style="width: 5%;">

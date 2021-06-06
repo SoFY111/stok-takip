@@ -12,6 +12,18 @@
     cursor: pointer;
 }
 
+.r-0{
+    right: 0px !important;
+}
+
+.t-0{
+    top: 0 !important;
+}
+
+.z-99999{
+    z-index: 9999;
+}
+
 @media only screen and (max-width: 550px) {
     .ml-s-2 {
         margin-left: .75rem !important

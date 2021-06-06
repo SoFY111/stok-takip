@@ -22,13 +22,13 @@ class ProductTableCreate extends Migration
             $table->unsignedBigInteger('brandId')->default(1)->nullable();
             $table->unsignedBigInteger('unitId');
             $table->integer('taxRate');
-            $table->integer('buyingPrice');
-            $table->integer('salesPrice');
+            $table->integer('buyingPrice')->nullable();
+            $table->integer('sellingPrice')->nullable();
             $table->string('description')->nullable();
             $table->tinyInteger('followStock')->comment('0:hayır, 1:evet');
-            $table->tinyInteger('criticStockAlert')->comment('-1 ise yapılmayacak');
+            $table->integer('criticStockAlert')->comment('-1 ise yapılmayacak');
             $table->string('image')->nullable();
-            $table->tinyInteger('isActive');
+            $table->tinyInteger('isActive')->default(1);
             $table->timestamps();
             $table->foreign('categoryId')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('brandId')->references('id')->on('brands')->onDelete('cascade');
