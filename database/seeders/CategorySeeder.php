@@ -15,6 +15,6 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        Category::insert(['name'=>'Kategori Yok', 'slug'=>'kategori-yok']);
+        Category::insert(['name'=>'Kategori Yok', 'slug'=>'kategori-yok', 'color' => '#eeb72c']);
     }
 }

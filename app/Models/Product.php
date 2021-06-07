@@ -46,6 +46,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereUnitId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property float|null $sellingPrice
+ * @property-read \App\Models\Category|null $categoryDetails
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereSellingPrice($value)
  */
 class Product extends Model
 {
@@ -66,5 +69,9 @@ class Product extends Model
         "image",
         "isActive",
     ];
+
+    public function categoryDetails(){
+        return $this->hasOne('App\Models\Category', 'id', 'categoryId');
+    }
 
 }

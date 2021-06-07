@@ -25,4 +25,8 @@ class Unit extends Model
     protected $fillable=[
         'name',
     ];
+
+    public function productCount(){
+        return $this->hasMany('App\Models\Product', 'brandId', 'id')->count();
+    }
 }

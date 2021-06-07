@@ -16,6 +16,12 @@
                             <input type="text" id="addCategoryInput" name="name" class="form-control"/>
                         </div>
                         <div class="form-group">
+                            <div class="d-flex align-items-center flex-row">
+                                <span>Kategori Rengi</span>
+                                <input type="color" id="favcolor" name="favcolor" value="#EEB72C" class="ml-2 rounded" style="cursor:pointer;"><br><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <button type="submit" id="addCategoryButton" class="btn btn-primary btn-block">Ekle</button>
                         </div>
                     </form>
@@ -46,7 +52,10 @@
                                     @if($category->name != "Kategori Yok")
                                         <tr>
                                             <td style="display: flex; justify-content: space-between;align-items: center;">
-                                                <span>{{$category->name}}</span>
+                                                <span>
+                                                    <span>{{$category->name}}</span>
+                                                    <span class="rounded px-2 ml-2" style=" background-color: {{$category->color}}" title="Kategori rengi"></span>
+                                                </span>
                                                 <span>
                                                         <a class="editBranModalButton" categoryId="{{$category->id}}">
                                                             <i class="fas fa-pen-square text-dark"
@@ -90,6 +99,12 @@
                             <input type="hidden" name="id" id="editModalHiddenInput" value="0"/>
                             <input type="text" id="editModalInput" name="name" class="form-control" />
                         </div>
+                        <div class="form-group">
+                            <div class="d-flex align-items-center flex-row">
+                                <span>Kategori Rengi</span>
+                                <input type="color" id="colorInput" name="favcolor" value="#000000" class="ml-2 rounded " style="cursor:pointer;">
+                            </div>
+                        </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
@@ -128,7 +143,8 @@
                     url: '{{route('getCategoryName')}}',
                     data: {id: id},
                     success: function (data) {
-                        $('#editModalInput').val(data);
+                        $('#editModalInput').val(data[0].name);
+                        $('#colorInput').val(data[0].color.toString());
                     }
                 });
             })
@@ -144,7 +160,17 @@
                         $('#unitModalFormButton').prop('disabled', false);
                     } else $('#unitModalFormButton').prop('disabled', true);
                 });
+            }).focusout(function (){
+                if ($(this).val().length > 0) {
+                    $('#unitModalFormButton').prop('disabled', false);
+                } else $('#unitModalFormButton').prop('disabled', true);
             });
+
+            $('#colorInput').change(function (){
+                $('#unitModalFormButton').prop('disabled', false);
+            });
+
+
         });
     </script>
 @endsection

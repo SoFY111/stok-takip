@@ -87,18 +87,21 @@
                                 <tr>
                                     <td style="display: flex; align-items: center; justify-content: space-between; ">
                                         {{$unit->name}}
+                                        @if($units->count() != 1)
                                         <span>
-                                        <a class="editBranModalButton" brandId="{{$unit->id}}" action="0">
-                                            <i class="fas fa-pen-square text-dark"
-                                               role="button" data-toggle="modal"
-                                               data-target="#editModal"
-                                               style="font-size: 18px;"></i>
-                                        </a>
-                                        <a href="{{route('birim.destroy', $unit->id)}}">
-                                            <i class="fas fa-times-circle text-danger"
-                                               style="font-size: 18px;"></i>
-                                        </a>
-                                    </span>
+                                            <a class="editBranModalButton" brandId="{{$unit->id}}" action="0">
+                                                <i class="fas fa-pen-square text-dark"
+                                                   role="button" data-toggle="modal"
+                                                   data-target="#editModal"
+                                                   style="font-size: 18px;"></i>
+                                            </a>
+                                            <a class="deleteUnitModalButton" unitId="{{$unit->id}}" unitName="{{$unit->name}}" productCount="{{$unit->productCount()}}">
+                                                <i class="fas fa-times-circle text-danger"
+                                                   role="button" data-toggle="modal" data-target="#deleteUnitModal"
+                                                   style="font-size: 18px;"></i>
+                                            </a>
+                                        </span>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -131,7 +134,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
-                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                    <button type="submit" id="brandModalSubmitButton" class="btn btn-primary">Kaydet</button>
                     </form>
                 </div>
             </div>
@@ -193,6 +196,32 @@
             </div>
         </div>
     </div>
+
+    <!-- Model For Unit Delete -->
+    <div class="modal fade" id="deleteUnitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Birim Sil</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span id="deleteUnitModalText" class="font-weight-bold">Bu</span> birime ait <span id="deleteUnitModalProductCountText" class="font-weight-bold"></span> tane ürün bulunmaktadır. Eğer bu birimi silerseniz
+                    ürünlerin hepsi silinecek.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
+                    <form method="post" action="{{route('birim.destroy')}}">
+                        <input type="hidden" name="unitId" id="unitIdInput">
+                        <button type="submit" class="btn btn-primary">Sil</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('js')
@@ -223,15 +252,32 @@
                 });
             })
 
+            $('.deleteUnitModalButton').on('click', function () {
+                const unitId = $(this)[0].getAttribute('unitId');
+                const unitName = $(this)[0].getAttribute('unitName');
+                const productCount = $(this)[0].getAttribute('productCount');
+                $('#unitIdInput').text(unitId);
+                $('#deleteUnitModalText').text(unitName);
+                $('#deleteUnitModalProductCountText').text(productCount);
+            })
+
+
+
             $('#editModal').on('shown.bs.modal', function () {
                 $('#editModalInput').focus()
             })
 
-            $(':input[type="submit"]').prop('disabled', true);
+            $('#brandModalSubmitButton').prop('disabled', true);
+            $('#unitModalFormButton').prop('disabled', true);
+
             $('input[type="text"]').keyup(function () {
                 if ($(this).val().length > 0) {
-                    $(':input[type="submit"]').prop('disabled', false);
-                } else $(':input[type="submit"]').prop('disabled', true);
+                    $('#brandModalSubmitButton').prop('disabled', false);
+                    $('#unitModalFormButton').prop('disabled', false);
+                } else {
+                    $('#brandModalSubmitButton').prop('disabled', true);
+                    $('#unitModalFormButton').prop('disabled', true);
+                }
             });
 
             $('#brandTable').DataTable({

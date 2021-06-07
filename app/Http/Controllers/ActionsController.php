@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+use App\Models\Product;
 use App\Models\Unit;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,7 +21,8 @@ class ActionsController extends Controller
             return redirect()->back();
         }
         try {
-            Brand::where('isActive', 1)->where('id', $id)->update(['isActive'=> 0]) ?? abort(403, 'Böyle bir marka bulunamadı.');
+            Product::where('brandId', $id)->update(['brandId' => 1]);
+            Brand::where('id', $id)->update(['isActive'=> 0]) ?? abort(403, 'Böyle bir marka bulunamadı.');
             toastr()->success('Marka başarılı bir şekilde silindi.');
             return redirect()->back();
         } catch (Exception $ex) {
@@ -37,7 +39,7 @@ class ActionsController extends Controller
             return redirect()->back();
         }
         try {
-            Unit::where('isActive', 1)->where('id', $id)->update(['isActive'=> 0]) ?? abort(403, 'Böyle bir birim bulunamadı.');
+            Unit::where('id', $id)->update(['isActive'=> 0]) ?? abort(403, 'Böyle bir birim bulunamadı.');
             toastr()->success('Birim başarılı bir şekilde silindi.');
             return redirect()->back();
         } catch (Exception $ex) {

@@ -32,17 +32,19 @@
                         <span class="text-center hoverItem-s" style="width: 5%;">
                             <img src="{{$product->image ? $product->image : asset('images/unknown-pp.png')}}" width="40" height="40" class="rounded image-s">
                         </span>
-                        <span class="hoverItem-s" style="width: 35%;">{{$product->name}}</span>
+                        <span class="hoverItem-s d-flex align-items-center flex-row" style="width: 35%;">
+                            <a href="{{route('urunler.show', $product->id)}}" class="">{{$product->name}}</a>
+                            <span class="rounded-pill ml-2 p-1 px-2 {{hexColorContrast($product->categoryDetails->color) ? 'text-white font-weight-bold' : 'text-gray-900 font-weight-bold'}} text-xs" style="background-color: {{$product->categoryDetails->color}}">{{$product->categoryDetails->name}}</span>
+                        </span>
                         <span class="text-center hoverItem-s" style="width: 15%;">50</span>
                         <span class="text-center hoverItem-s" style="width: 15%;">{{$product->sellingPrice ? $product->sellingPrice. '₺' : 'Belirtilmedi'}}</span>
                         <span class="text-center hoverItem-s" style="width: 15%;">
                             <?php
                                 echo DNS1D::getBarcodeSVG($product->code, 'EAN13', 1, 40); //EAN13 barCode
-                             // echo DNS2D::getBarcodeSVG($product->code, 'QRCODE'); // qrCode
                             ?></span>
                         <span class="text-center hoverItem-s buttons-s" style="width: 15%;">
-                            <a href="" class="btn btn-sm btn-primary" title="Güncelle"><i class="fa fa-pen"></i></a>
-                            <a href="" class="btn btn-sm btn-danger" title="Sil"><i class="fa fa-times"></i></a>
+                            <a href="{{route('urunler.edit', $product->id)}}" class="btn btn-sm btn-primary" title="Güncelle"><i class="fa fa-pen"></i></a>
+                            <a href="{{route('urunler.delete', $product->id)}}" class="btn btn-sm btn-danger" title="Sil"><i class="fa fa-times"></i></a>
                         </span>
                     </div>
                 @endforeach
@@ -68,4 +70,11 @@
 
 @section('css')
     <link rel="stylesheet" href="{{asset('back/css/table.css')}}">
+@endsection
+
+@section('js')
+    <script src="{{asset('back/js/contrast.js')}}"></script>
+    <script>
+
+    </script>
 @endsection

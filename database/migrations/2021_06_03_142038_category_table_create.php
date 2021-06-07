@@ -17,6 +17,7 @@ class CategoryTableCreate extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug');
+            $table->string('color')->default('#eeb72c');
             $table->boolean('isActive')->default(1);
         });
     }

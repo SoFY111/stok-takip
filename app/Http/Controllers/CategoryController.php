@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 
 //MODELS
 use App\Models\Category;
+use App\Models\Product;
 
 class CategoryController extends Controller
 {
@@ -55,9 +56,10 @@ class CategoryController extends Controller
                 $sluggedName .= rand(0, 10);
             }
 
-            Category::insert([
+            Category::create([
                 'name' => $request->name,
-                'slug' => $sluggedName
+                'slug' => $sluggedName,
+                'color' => $request->favcolor
             ]);
             toastr('Kategori başarılı bir şekilde eklendi.', 'success');
             return redirect()->back();
@@ -103,11 +105,12 @@ class CategoryController extends Controller
 
     public function delete($id){
         try {
+            Product::where('categoryId', $id)->update(['categoryId' => 1]);
             Category::where('id' ,$id)->update(['isActive' => 0]);
             toastr('Kategori başarılı bir şekilde silindi.');
             return redirect()->back();
         }catch (Exception $ex){
-            toastr('Kategori silinemedi. Error code: 103');
+            toastr('Kategori silinemedi. Error code: 103', 'error');
             return redirect()->back();
         }
     }
@@ -124,23 +127,22 @@ class CategoryController extends Controller
     }
 
     public function getCategoryName(Request $request){
-        $category = Category::whereId($request->id) ?? abort(403, 'Böyle bir kategori yok');
-        return response()->json($category->name);
+        $category = Category::where('id',$request->id)->get() ?? abort(403, 'Böyle bir kategori yok');
+        return response()->json($category);
     }
 
     public function updateCategoryName(Request $request){
-
         try {
 
             $lowerCategoryName = Str::lower($request->name);
 
-            $category = Category::where('isActive', 1)->where('name', $lowerCategoryName)->get()->count();
+            $category = Category::where('isActive', 1)->where('id', '!=', $request->id)->where('name', $lowerCategoryName)->get()->count();
             if ($category > 0) {
                 toastr()->error('Aynı isme sahip başka kategori bulunmaktadır. Başka kategori ismi giriniz.');
                 return redirect()->route('kategoriler.index');
             }
 
-            Category::whereId($request->id)->update(['name' => $request->name]);
+            Category::whereId($request->id)->update(['name' => $request->name, 'color' => $request->favcolor]);
             toastr()->success('Kategori başarılı bir şekilde güncellendi.');
             return redirect()->back();
         } catch (Exception $e) {

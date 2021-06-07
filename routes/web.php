@@ -27,13 +27,13 @@ Route::group(['middleware' => 'isLogged'], function(){
     Route::get('updatebrandorunitname', [ActionsController::class, 'updateBrandOrUnitName'])->name('updateBrandOrUnitName');
 
     Route::get('markalar/destroy/{id}', [ActionsController::class, 'brandDestroy'])->name('marka.destroy');
-
-    Route::get('birimler/destroy/{id}', [ActionsController::class, 'unitDestroy'])->name('birim.destroy');
+    Route::post('birimler/destroy', [ActionsController::class, 'unitDestroy'])->name('birim.destroy');
 
     Route::get('kategoriler/getcategoryname', [CategoryController::class, 'getCategoryName'])->name('getCategoryName');
     Route::post('kategoriler/updatecategoryname', [CategoryController::class, 'updateCategoryName'])->name('kategori.update');
     Route::get('kategoriler/sil/{id}', [CategoryController::class, 'delete'])->name('kategoriler.delete');
 
+    Route::get('urunler/sil/{id}', [ProductController::class, 'delete'])->name('urunler.delete');
 
     Route::resource('urunler', ProductController::class);
     Route::resource('markalar', BrandController::class);
