@@ -19,6 +19,11 @@
         </div>
         <div class="row d-flex align-items-center justify-content-center">
             <div class="d-flex flex-column w-100">
+                @if($products->count() == 0)
+                    <div class="alert alert-warning">
+                        <span>Herhangi bir ürününüz bulunmuyor. Eklemek için <a href="{{route('urunler.create')}}" class="font-weight-bold"> tıklayınız.</a></span>
+                    </div>
+                @endif
                 <div class="d-flex flex-row w-100 mb-1 header-s">
                     <span class="text-center" style="width: 5%;">#</span>
                     <span style="width: 35%;">Adı</span>
@@ -36,7 +41,7 @@
                             <a href="{{route('urunler.show', $product->id)}}" class="">{{$product->name}}</a>
                             <span class="rounded-pill ml-2 p-1 px-2 {{hexColorContrast($product->categoryDetails->color) ? 'text-white font-weight-bold' : 'text-gray-900 font-weight-bold'}} text-xs" style="background-color: {{$product->categoryDetails->color}}">{{$product->categoryDetails->name}}</span>
                         </span>
-                        <span class="text-center hoverItem-s" style="width: 15%;">50</span>
+                        <span class="text-center hoverItem-s" style="width: 15%;">0</span>
                         <span class="text-center hoverItem-s" style="width: 15%;">{{$product->sellingPrice ? $product->sellingPrice. '₺' : 'Belirtilmedi'}}</span>
                         <span class="text-center hoverItem-s" style="width: 15%;">
                             <?php
@@ -70,11 +75,4 @@
 
 @section('css')
     <link rel="stylesheet" href="{{asset('back/css/table.css')}}">
-@endsection
-
-@section('js')
-    <script src="{{asset('back/js/contrast.js')}}"></script>
-    <script>
-
-    </script>
 @endsection

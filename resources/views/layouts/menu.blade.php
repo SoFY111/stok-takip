@@ -45,24 +45,24 @@
                 <span>Stok İşlemleri</span>
             </a>
             <div id="collapseTwo"
-                 class="collapse @if(Request::segment(2) == 'kategoriler' or Request::segment(2) == 'kategori') show @endif"
+                 class="collapse @if(Request::segment(1) == 'stok') show @endif"
                  aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Stok İşlemleri</h6>
-                    <a class="collapse-item @if(Request::segment(2) == 'kategori' and Request::segment(3) == 'ana') active @endif"
-                       href="">
+                    <a class="collapse-item @if(Request::segment(1) == 'stok' and Request::segment(2) == 'create') active @endif"
+                       href="{{route('stok.create')}}">
                         <i class="fas fa-truck mr-1" style="opacity: .7 !important;"></i>
-                        Stok Girişi
+                        Stok Giriş Çıkışı
                     </a>
-                    <a class="collapse-item @if(Request::segment(2) == 'kategori' and Request::segment(3) == 'alt') active @endif"
+                    {{--<a class="collapse-item @if(Request::segment(1) == 'stok' and Request::segment(2) == 'create') active @endif"
                        href="">
                         <i class="fas fa-truck mr-1 fa-rotate-180 fa-flip-horizontal" style="opacity: .7 !important;"></i>
                         Stok Çıkışı
-                    </a>
-                    <a class="collapse-item @if(Request::segment(2) == 'kategori' and Request::segment(3) == 'alt') active @endif"
+                    </a>--}}
+                    <a href="{{route('stok.index')}}" class="collapse-item @if(Request::segment(1) == 'stok' and Request::segment(2) == '') active @endif"
                        href="">
                         <i class="fas fa-history mr-1" style="opacity: .7 !important;"></i>
-                        Sok Geçmişi
+                        Stok Geçmişi
                     </a>
                 </div>
             </div>

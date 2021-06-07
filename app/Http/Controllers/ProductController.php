@@ -25,7 +25,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::where('isActive', 1)->orderByDesc('id')->paginate(10);
+        $products = Product::where('isActive', 1)->orderByDesc('id')->paginate(13);
         return view('products.index', compact('products'));
     }
 
@@ -50,7 +50,11 @@ class ProductController extends Controller
      */
     public function store(ProductCreateRequest $request)
     {
-        $count = Product::where('name', $request->name)->where('slug', Str::slug($request->name))->get()->count();
+        $count = Product::where('isActive', 1)
+                            ->where('name', $request->name)
+                            ->where('slug', Str::slug($request->name))
+                            ->get()
+                            ->count();
         if($count > 0){
             toastr('Aynı isme sahip başka bir ürün var. Lütfen başka isim giriniz.', 'error');
             return redirect()->back();
@@ -131,7 +135,12 @@ class ProductController extends Controller
      */
     public function update(ProductUpdateRequest $request, $id)
     {
-        $count = Product::where('name', $request->name)->where('slug', Str::slug($request->name))->get()->count();
+        $count = Product::where('id', '!=', $id)
+                            ->where('isActive', 1)
+                            ->where('name', $request->name)
+                            ->where('slug', Str::slug($request->name))
+                            ->get()
+                            ->count();
         if($count > 0){
             toastr('Aynı isme sahip başka bir ürün var. Lütfen başka isim giriniz.', 'error');
             return redirect()->back();

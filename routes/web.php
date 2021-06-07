@@ -10,6 +10,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\ActionsController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\StockController;
 
 
 Route::group(['middleware' => 'isLogin'], function(){
@@ -39,6 +40,7 @@ Route::group(['middleware' => 'isLogged'], function(){
     Route::resource('markalar', BrandController::class);
     Route::resource('birimler', UnitController::class);
     Route::resource('kategoriler', CategoryController::class);
+    Route::resource('stok', StockController::class);
 
     Route::get('/cikis', [AuthController::class, 'logout'])->name('logout');
 });
