@@ -14,6 +14,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $sumProductCount
  * @property float $sumTradingVolume
  * @property int $inOrOut
+ * @property string|null $supplier
+ * @property string|null $adress
+ * @property string|null $date işlem tarihi
+ * @property string|null $desription
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Stock newModelQuery()
@@ -27,9 +31,25 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Stock whereSumTradingVolume($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Stock whereTransactionNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Stock whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Stock whereAdress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Stock whereDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Stock whereDesription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Stock whereSupplier($value)
  * @mixin \Eloquent
  */
 class Stock extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'transactionNumber',
+        'productId',
+        'sumProductCount',
+        'sumTradingVolume',
+        'inOrOut',
+        'supplier',
+        'adress',
+        'date',
+        'desription',
+    ];
 }

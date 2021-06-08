@@ -240,7 +240,6 @@
                 const action = $(this)[0].getAttribute('action');
                 $('#editModalHiddenInput').val(id);
                 $('#actionType').val(action);
-                console.log(id);
                 $.ajax({
                     type:'GET',
                     url:'getbrandorunitname',

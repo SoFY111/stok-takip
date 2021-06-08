@@ -36,6 +36,8 @@ Route::group(['middleware' => 'isLogged'], function(){
 
     Route::get('urunler/sil/{id}', [ProductController::class, 'delete'])->name('urunler.delete');
 
+    Route::get('stok/getproductunit/{id}', [StockController::class, 'getProductUnit'])->name('stok.getProductUnit');
+
     Route::resource('urunler', ProductController::class);
     Route::resource('markalar', BrandController::class);
     Route::resource('birimler', UnitController::class);

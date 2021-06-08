@@ -74,4 +74,8 @@ class Product extends Model
         return $this->hasOne('App\Models\Category', 'id', 'categoryId');
     }
 
+    public function unitDetails(){
+        return $this->hasOne('App\Models\Unit', 'id', 'unitId');
+    }
+
 }

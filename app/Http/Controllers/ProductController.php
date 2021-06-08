@@ -179,7 +179,6 @@ class ProductController extends Controller
             ]);
         }
 
-
         try {
             Product::where('id', $id)->update([
                 'name' => $request->name,

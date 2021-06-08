@@ -19,8 +19,13 @@ class CreateStockTable extends Migration
             $table->unsignedBigInteger('productId');
             $table->double('sumProductCount');
             $table->double('sumTradingVolume');
-            $table->tinyInteger('inOrOut');
+            $table->string('supplier')->nullable();
+            $table->string('adress')->nullable();
+            $table->timestamp('date')->nullable()->comment('işlem tarihi');
+            $table->tinyInteger('inOrOut')->comment('0:out, 1:in');
+            $table->string('desription')->nullable();
             $table->timestamps();
+            $table->foreign('productId')->references('id')->on('products')->onDelete('cascade');
         });
     }
 
