@@ -12,7 +12,9 @@
                         <div class="input-group-prepend">
                             <button id="button-addon2" type="submit" class="btn btn-link text-dark"><i class="fa fa-search"></i></button>
                         </div>
-                        <input type="search" placeholder="Ürün adı, kategorisi veya barkod numarası..." aria-describedby="button-addon2" class="form-control border-0 shadow-none bg-light">
+                        <form method="GET" action="">
+                            <input type="search" name="filterSearch" placeholder="Ürün adı, kategorisi veya barkod numarası..." aria-describedby="button-addon2" class="form-control border-0 shadow-none bg-light">
+                        </form>
                     </form>
                 </div>
             </div>
@@ -34,14 +36,18 @@
                 </div>
                 @foreach($products as $product)
                     <div class="hover hover-s d-flex flex-sm-row flex-row align-items-center justify-content-center w-100 mt-2 bg-white p-2 rounded flex-sm-row ">
-                        <span class="text-center hoverItem-s" style="width: 5%;">
+                        <span class="text-center hoverItem-s d-none-m" style="width: 5%;">
                             <img src="{{$product->image ? $product->image : asset('images/unknown-pp.png')}}" width="40" height="40" class="rounded image-s">
                         </span>
-                        <span class="hoverItem-s d-flex align-items-center flex-row" style="width: 35%;">
+                        <span class="hoverItem-s d-flex align-items-center justify-content-center-sm flex-row flex-column-sm" style="width: 35%;">
                             <a href="{{route('urunler.show', $product->id)}}" class="">{{$product->name}}</a>
                             <span class="rounded-pill ml-2 p-1 px-2 {{hexColorContrast($product->categoryDetails->color) ? 'text-white font-weight-bold' : 'text-gray-900 font-weight-bold'}} text-xs" style="background-color: {{$product->categoryDetails->color}}">{{$product->categoryDetails->name}}</span>
                         </span>
-                        <span class="text-center hoverItem-s" style="width: 15%;">0</span>
+                        <span class="text-center hoverItem-s" style="width: 15%;" title="@if($product->followStock == 1) {{$product->CalcuteStockCount <= $product->criticStockAlert ? 'Kritik Stok Uyarısı' : ''}} @endif ">
+                            @if($product->followStock == 1) @if($product->CalcuteStockCount <= $product->criticStockAlert) <small><i class="fas fa-info-circle text-danger"></i></small> @endif @endif
+                            <span class="font-weight-bold @if($product->followStock == 1) {{$product->CalcuteStockCount <= $product->criticStockAlert ? 'text-danger' : ''}} @endif">{{sprintf("%.2f", $product->CalcuteStockCount)}}</span>
+                            <small class="@if($product->followStock == 1) {{$product->CalcuteStockCount <= $product->criticStockAlert ? 'fw-sm ' : 'text-gray-500'}} @endif ">{{$product->unitDetails->name}}</small>
+                        </span>
                         <span class="text-center hoverItem-s" style="width: 15%;">{{$product->sellingPrice ? $product->sellingPrice. '₺' : 'Belirtilmedi'}}</span>
                         <span class="text-center hoverItem-s" style="width: 15%;">
                             <?php
@@ -53,21 +59,7 @@
                         </span>
                     </div>
                 @endforeach
-                @for($i=0;$i<13;$i++)
-                    <div class="hover hover-s d-flex flex-sm-row flex-row align-items-center justify-content-center w-100 mt-2 bg-white p-2 rounded flex-sm-row ">
-                        <span class="text-center hoverItem-s" style="width: 5%;">
-                            <img src="{{asset('images/test-image.jpg')}}" width="40" height="40" class="rounded image-s">
-                        </span>
-                        <span class="hoverItem-s" style="width: 35%;">2</span>
-                        <span class="text-center hoverItem-s" style="width: 15%;">3</span>
-                        <span class="text-center hoverItem-s" style="width: 15%;">4</span>
-                        <span class="text-center hoverItem-s" style="width: 15%;">5</span>
-                        <span class="text-center hoverItem-s buttons-s" style="width: 15%;">
-                            <a href="" class="btn btn-sm btn-primary" title="Güncelle"><i class="fa fa-pen"></i></a>
-                            <a href="" class="btn btn-sm btn-danger" title="Sil"><i class="fa fa-times"></i></a>
-                        </span>
-                    </div>
-                @endfor
+                {{$products->withQueryString()->links()}}
             </div>
         </div>
     </div>

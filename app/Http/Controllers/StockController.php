@@ -19,17 +19,18 @@ class StockController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Illuminate\View\View
+     * @return Illuminate\View\View|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
-        return view('stock.index');
+        $stocks = Stock::where('isActive', 1)->orderByDesc('date')->paginate(10);
+        return view('stock.index', compact('stocks'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function create()
     {
@@ -56,7 +57,7 @@ class StockController extends Controller
         try {
             Stock::create($request->post());
             toastr('Stok işlemi bir şekilde eklendi.', 'success');
-            return redirect()->route('urunler.index');
+            return redirect()->route('stok.index');
         }catch (Exception $ex){
             toastr('Stok işlemi yapılamadı.', 'success');
             return redirect()->route('urunler.index');

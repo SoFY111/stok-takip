@@ -118,7 +118,7 @@
                 </div>
                 <div class="col-9">
                     <div class="ml-5 w-50">
-                        <input type="datetime-local" class="form-control" name="date" id="date" value="{{old('date') ? old('date') : Carbon\Carbon::now()->addHours(3)->toDateTimeLocalString()}}"/>
+                        <input type="datetime-local" class="form-control" name="date" id="date"  value="{{old('date') ? old('date') : explode('+', date('c', strtotime((new \DateTime())->format('Y-m-d H:i'))))[0]}}"/>
                     </div>
                 </div>
             </div>
@@ -140,7 +140,7 @@
                     <div class="ml-5 w-50">
                         <select class="form-control js-example-basic-single productId select2-selection" id="productId" name="productId">
                             @foreach($products as $product)
-                                <option value="{{$product->id}}" {{old('productId') == $product->id ? 'selected' : ''}} picturePath="{{asset($product->image)}}"> {{$product->name}} </option>
+                                <option value="{{$product->id}}" {{old('productId') == $product->id ? 'selected' : ''}} picturePath="{{asset($product->image)}}">{{$product->code}} - {{$product->name}} </option>
                             @endforeach
                         </select>
                     </div>

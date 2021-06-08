@@ -7,6 +7,11 @@
     background-color: rgba(0,0,0,.02) !important;
 }
 
+.fw-sm{
+    color: #EB8E84;
+    font-weight: 400;
+}
+
 
 @media only screen and (max-width: 550px){
     .header-s{
@@ -32,6 +37,20 @@
     }
 
     .buttons-s{
+        display: none;
+    }
+
+    .justify-content-center-sm{
+        justify-content: center;
+    }
+
+    .flex-column-sm{
+        flex-direction: column !important;
+    }
+}
+
+@media only screen and (min-width: 550px) and (max-width: 850px){
+    .d-none-m{
         display: none;
     }
 }

@@ -24,6 +24,7 @@ class CreateStockTable extends Migration
             $table->timestamp('date')->nullable()->comment('işlem tarihi');
             $table->tinyInteger('inOrOut')->comment('0:out, 1:in');
             $table->string('desription')->nullable();
+            $table->tinyInteger('isActive')->default(1);
             $table->timestamps();
             $table->foreign('productId')->references('id')->on('products')->onDelete('cascade');
         });

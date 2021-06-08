@@ -70,12 +70,24 @@ class Product extends Model
         "isActive",
     ];
 
+    protected $appends = ['CalcuteStockCount'];
+
     public function categoryDetails(){
         return $this->hasOne('App\Models\Category', 'id', 'categoryId');
     }
 
     public function unitDetails(){
         return $this->hasOne('App\Models\Unit', 'id', 'unitId');
+    }
+
+    public function stocks(){
+        return $this->hasMany('App\Models\Stock', 'productId', 'id');
+    }
+
+    public function getCalcuteStockCountAttribute(){
+        $sumInputTotal = $this->stocks()->where('inOrOut', 1)->where('date', '<', date('Y-m-d H:i:s'))->sum('sumProductCount');
+        $sumOutputTotal = $this->stocks()->where('inOrOut', 0)->where('date', '<', date('Y-m-d H:i:s'))->sum('sumProductCount');
+        return $sumInputTotal - $sumOutputTotal;
     }
 
 }

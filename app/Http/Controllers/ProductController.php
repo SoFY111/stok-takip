@@ -15,6 +15,8 @@ use App\Models\Unit;
 //REQUESTS
 use App\Http\Requests\ProductCreateRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use phpDocumentor\Reflection\Types\Object_;
+use SebastianBergmann\Environment\Console;
 
 class ProductController extends Controller
 {
@@ -25,7 +27,14 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::where('isActive', 1)->orderByDesc('id')->paginate(13);
+        $products = Product::orderByDesc('id');
+        if(request()->get('filterSearch') OR request()->get('filterSearch') == 0){
+            $products = $products->where('name', 'LIKE', "%".request()->get('filterSearch')."%")->where('isActive', 1);
+        }
+        if(request()->get('filterSearch') OR request()->get('filterSearch') == 0){
+            $products = $products->orWhere('code', 'LIKE', "%".request()->get('filterSearch')."%");
+        }
+        $products = $products->where('isActive', 1)->paginate(10);
         return view('products.index', compact('products'));
     }
 
@@ -64,7 +73,8 @@ class ProductController extends Controller
             'image' => null,
             'slug' => Str::slug($request->name),
             'isActive' => 1,
-            'sellingPrice' => $request->sellingPrice
+            'sellingPrice' => $request->sellingPrice,
+            'code' => $request->code . checkLastDigitEAN($request->code)
         ]);
 
         if ($request->followStock === 'yes') {
@@ -183,7 +193,7 @@ class ProductController extends Controller
             Product::where('id', $id)->update([
                 'name' => $request->name,
                 'slug' => Str::slug($request->name),
-                'code' => $request->code,
+                'code' => $request->code . checkLastDigitEAN($request->code),
                 'categoryId' => $request->categoryId,
                 'brandId' => $request->brandId,
                 'unitId' => $request->unitId,
