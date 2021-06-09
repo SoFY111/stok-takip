@@ -151,7 +151,7 @@
                             <option value="1">%1</option>
                             <option value="0">%0</option>
                         </select>
-                        <small id="taxRate" class="form-text text-muted"><i> <i class="fas fa-info-circle"></i> Eğer KDV yoksa %0 seçilmelidir.</i></small>
+                        <small id="taxRate" class="form-text text-muteds"><i> <i class="fas fa-info-circle"></i> Eğer KDV yoksa %0 seçilmelidir.</i></small>
                     </div>
                 </div>
             </div>

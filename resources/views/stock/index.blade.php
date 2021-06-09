@@ -11,7 +11,9 @@
                         <div class="input-group-prepend">
                             <button id="button-addon2" type="submit" class="btn btn-link text-dark"><i class="fa fa-search"></i></button>
                         </div>
-                        <input type="search" placeholder="Ürün adı, kategorisi veya barkod numarası..." aria-describedby="button-addon2" class="form-control border-0 shadow-none bg-light">
+                        <form method="GET" action="">
+                            <input type="search" name="filterSearch" placeholder="Ürün adı, hareket yönü, miktar, tedarikçi veya tarih..." aria-describedby="button-addon2" class="form-control border-0 shadow-none bg-light">
+                        </form>
                     </form>
                 </div>
             </div>

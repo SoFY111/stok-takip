@@ -23,8 +23,42 @@ class StockController extends Controller
      */
     public function index()
     {
-        $activeProductsIds=Product::where('isActive', 1)->pluck('id');
-        $stocks = Stock::where('isActive', 1)->whereIn('productId', $activeProductsIds)->orderByDesc('date')->paginate(10);
+        $activeProductsIds= Product::where('isActive', 1)->pluck('id');
+        $stocks = Stock::whereIn('productId', $activeProductsIds)->orderByDesc('date');
+
+        if(request()->get('filterSearch') OR request()->get('filterSearch') == 0){
+            $searchedProductId = Product::where('isActive', 1)->where('name', 'LIKE', '%'.request()->get('filterSearch').'%')->pluck('id');
+            $stocks = Stock::whereIn('productId', $searchedProductId)->where('isActive', '1');
+        }
+        if(request()->get('filterSearch') OR request()->get('filterSearch') == 0){
+            if(    strpos(request()->get('filterSearch'), 'giriş') === true
+                OR strpos(request()->get('filterSearch'), 'girdi') === true
+                OR strpos(request()->get('filterSearch'), 'stok girişi') === true
+                OR strpos(request()->get('filterSearch'), 'stok girdi') === true
+                OR strpos(request()->get('filterSearch'), 'g')){
+                $stocks=$stocks->orWhere('inOrOut', 1)->where('isActive', 1);
+            }elseif(strpos(request()->get('filterSearch'), 'çıkış') === true
+                 OR strpos(request()->get('filterSearch'), 'stok çıkışı') === true
+                 OR strpos(request()->get('filterSearch'), 'stok çıktısı') === true
+                 OR strpos(request()->get('filterSearch'), 'ç')){
+                $stocks=$stocks->orWhere('inOrOut', 0)->where('isActive', 1);
+            }
+        }
+        if(request()->get('filterSearch')){
+            $stocks= $stocks->orWhere('sumProductCount', request()->get('filterSearch'))->where('isActive', 1);
+        }
+        if(request()->get('filterSearch') OR request()->get('filterSearch') == 0){
+            $stocks= $stocks->orWhere('supplier', 'LIKE' , '%'.request()->get('filterSearch').'%')->where('isActive', 1);
+
+        }
+        if(request()->get('filterSearch') OR request()->get('filterSearch') == 0){
+            $date = date('Y-m-d', strtotime(str_replace('-', '/', request()->get('filterSearch'))));
+            $dateOne = $date . ' 00:00:00';
+            $dateTwo = $date . ' 23:59:59';
+            $stocks= $stocks->orWhere('date', '>' , $dateOne)->where('date', '<', $dateTwo)->where('isActive', 1);
+        }
+
+        $stocks = $stocks->paginate(10);
         return view('stock.index', compact('stocks'));
     }
 
