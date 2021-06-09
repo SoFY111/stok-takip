@@ -31,7 +31,7 @@ class ActionsController extends Controller
         }
     }
 
-    public function unitDestroy($id)
+    public function unitDestroy(Request $request)
     {
         $unitCount = Unit::where('isActive', 1)->count();
         if ($unitCount == 1){
@@ -39,7 +39,7 @@ class ActionsController extends Controller
             return redirect()->back();
         }
         try {
-            Unit::where('id', $id)->update(['isActive'=> 0]) ?? abort(403, 'Böyle bir birim bulunamadı.');
+            Unit::where('id', $request->unitId)->update(['isActive'=> 0]) ?? abort(403, 'Böyle bir birim bulunamadı.');
             toastr()->success('Birim başarılı bir şekilde silindi.');
             return redirect()->back();
         } catch (Exception $ex) {

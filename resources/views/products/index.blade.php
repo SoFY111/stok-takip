@@ -13,7 +13,7 @@
                             <button id="button-addon2" type="submit" class="btn btn-link text-dark"><i class="fa fa-search"></i></button>
                         </div>
                         <form method="GET" action="">
-                            <input type="search" name="filterSearch" placeholder="Ürün adı, kategorisi veya barkod numarası..." aria-describedby="button-addon2" class="form-control border-0 shadow-none bg-light">
+                            <input type="search" name="filterSearch" placeholder="Ürün adı, açıklaması, kategorisi veya barkod numarası..." aria-describedby="button-addon2" class="form-control border-0 shadow-none bg-light">
                         </form>
                     </form>
                 </div>
@@ -21,9 +21,13 @@
         </div>
         <div class="row d-flex align-items-center justify-content-center">
             <div class="d-flex flex-column w-100">
-                @if($products->count() == 0)
+                @if(!request()->get('filterSearch') && $products->count() == 0)
                     <div class="alert alert-warning">
                         <span>Herhangi bir ürününüz bulunmuyor. Eklemek için <a href="{{route('urunler.create')}}" class="font-weight-bold"> tıklayınız.</a></span>
+                    </div>
+                @elseif(request()->get('filterSearch') && $products->count() == 0)
+                    <div class="alert alert-warning">
+                        <span>Aradığınız kriterlere uygun ürün bulunmamaktadır. Eklemek için <a href="{{route('urunler.create')}}" class="font-weight-bold"> tıklayınız.</a></span>
                     </div>
                 @endif
                 <div class="d-flex flex-row w-100 mb-1 header-s">
@@ -59,7 +63,7 @@
                         </span>
                     </div>
                 @endforeach
-                {{$products->withQueryString()->links()}}
+                {{$products->withQueryString()->links('pagination::bootstrap-4')}}
             </div>
         </div>
     </div>

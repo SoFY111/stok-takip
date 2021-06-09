@@ -12,6 +12,13 @@
     font-weight: 400;
 }
 
+.pagination{
+    display: flex;
+    justify-content: flex-end;
+    list-style: none;
+    border-radius: .35rem;
+    margin: 7px 71px 0px 0px;
+}
 
 @media only screen and (max-width: 550px){
     .header-s{

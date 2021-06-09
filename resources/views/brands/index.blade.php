@@ -215,6 +215,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
                     <form method="post" action="{{route('birim.destroy')}}">
+                        @csrf
                         <input type="hidden" name="unitId" id="unitIdInput">
                         <button type="submit" class="btn btn-primary">Sil</button>
                     </form>
@@ -255,7 +256,7 @@
                 const unitId = $(this)[0].getAttribute('unitId');
                 const unitName = $(this)[0].getAttribute('unitName');
                 const productCount = $(this)[0].getAttribute('productCount');
-                $('#unitIdInput').text(unitId);
+                $('#unitIdInput').text(unitId).val(unitId);
                 $('#deleteUnitModalText').text(unitName);
                 $('#deleteUnitModalProductCountText').text(productCount);
             })

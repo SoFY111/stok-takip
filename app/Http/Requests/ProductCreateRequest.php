@@ -33,6 +33,7 @@ class ProductCreateRequest extends FormRequest
             'brandId' => 'required',
             'unitId' => 'required',
             'taxRate' => 'required',
+            'startingStockCount' => 'required|min:0',
             'image' => 'image|mimes:jpeg,png,jpg|max:10000'
         ];
     }
@@ -46,6 +47,7 @@ class ProductCreateRequest extends FormRequest
             'brandId' => 'Marka',
             'unitId' => 'Birim',
             'taxRate' => 'KDV Oranı',
+            'startingStockCount' => 'Başlangıç Stok Miktarı',
             'image' => 'Resim'
         ];
     }

@@ -59,6 +59,28 @@ class UnitController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function ajaxStore(Request $request)
+    {
+        $lowerUnitName = Str::lower($request->unitName);
+        $unit = Unit::where('name', $lowerUnitName)->where('isActive', 1)->get()->count();
+
+        if ($unit > 0) return response()->json(['type' => 0, 'message'=>'Aynı isme sahip başka birim bulunmaktadır. Başka birim ismi giriniz.', 'lastId' => null, 'unitName' => null]);
+
+        $unit = new Unit();
+        $unit->name = $request->unitName;
+        $unit->save();
+
+        $lastId = Unit::where('isActive', 1)->orderByDesc('id')->limit(1)->pluck('id');
+        return response()->json(['type' => 1, 'message'=>'Birim başarılı bir şekilde eklendi.', 'lastId' => $lastId, 'unitName' => $request->unitName]);
+
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param int $id

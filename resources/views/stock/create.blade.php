@@ -59,7 +59,7 @@
                         <input type="text" class="form-control" name="description" value="{{old('description')}}"/>
                     </div>
                     <div class="d-flex flex-row align-items-center float-right">
-                        <a href="{{route('urunler.index')}}" class="btn btn-secondary" type="submit">Vazgeç</a>
+                        <a href="{{url()->previous()}}" class="btn btn-secondary" type="submit">Vazgeç</a>
                         <button class="btn btn-primary ml-1" type="submit">Kaydet</button>
                     </div>
                 </div>
@@ -113,7 +113,7 @@
                 </div>
                 <div class="col-2">
                     <div class="d-flex flex-row align-items-center">
-                        <label class="h6 ml-2 mb-0 ml-s-2">Tarih</label>
+                        <label class="h6 ml-2 mb-0 ml-s-2">Tarih (*)</label>
                     </div>
                 </div>
                 <div class="col-9">

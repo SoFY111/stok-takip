@@ -28,7 +28,8 @@ class StockCreteRequest extends FormRequest
         return [
             'inOrOut' => 'required',
             'productId' => 'required',
-            'quantity' => 'required'
+            'quantity' => 'required',
+            'date' => 'required',
         ];
     }
     public function attributes()
@@ -37,6 +38,7 @@ class StockCreteRequest extends FormRequest
             'inOrOut' => 'Stok Yöntemi',
             'supplier'=>'Tedarikçi',
             'adress' => 'Adres',
+            'date' => 'Tarih',
             'transactionDate' => 'Tarih',
             'productId' => 'Ürün',
             'quantity' => 'Miktar',

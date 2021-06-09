@@ -61,6 +61,27 @@ class BrandController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function ajaxStore(Request $request)
+    {
+        $lowerBrandName = Str::lower($request->brandName);
+
+        $brand = Brand::where('isActive', 1)->where('name', $lowerBrandName)->get()->count();
+        if ($brand > 0) return response()->json(['type' => 1, 'message'=>'Aynı isme sahip başka marka bulunmaktadır. Başka marka ismi giriniz.', 'lastId' => null, 'brandName' => null]);
+        $brand = new Brand();
+        $brand->name = $request->brandName;
+        $brand->slug = Str::slug($request->brandName);
+        $brand->save();
+
+        $lastId = Brand::where('isActive', 1)->orderByDesc('id')->limit(1)->pluck('id');
+        return response()->json(['type' => 1, 'message'=>'Marka başarılı bir şekilde eklendi.', 'lastId' => $lastId, 'brandName' => $request->brandName]);
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id

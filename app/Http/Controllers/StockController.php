@@ -23,7 +23,8 @@ class StockController extends Controller
      */
     public function index()
     {
-        $stocks = Stock::where('isActive', 1)->orderByDesc('date')->paginate(10);
+        $activeProductsIds=Product::where('isActive', 1)->pluck('id');
+        $stocks = Stock::where('isActive', 1)->whereIn('productId', $activeProductsIds)->orderByDesc('date')->paginate(10);
         return view('stock.index', compact('stocks'));
     }
 

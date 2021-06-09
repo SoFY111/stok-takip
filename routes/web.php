@@ -38,6 +38,10 @@ Route::group(['middleware' => 'isLogged'], function(){
 
     Route::get('stok/getproductunit/{id}', [StockController::class, 'getProductUnit'])->name('stok.getProductUnit');
 
+    Route::post('kategoriler/ajaxstore', [CategoryController::class, 'ajaxStore'])->name('kategoriler.ajaxStore');
+    Route::post('birimler/ajaxstore', [UnitController::class, 'ajaxStore'])->name('birimler.ajaxStore');
+    Route::post('markalar/ajaxstore', [BrandController::class, 'ajaxStore'])->name('markalar.ajaxStore');
+
     Route::resource('urunler', ProductController::class);
     Route::resource('markalar', BrandController::class);
     Route::resource('birimler', UnitController::class);

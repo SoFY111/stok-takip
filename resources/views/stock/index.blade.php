@@ -57,7 +57,9 @@
                         </span>
                     </div>
                 @endforeach
-                {{$stocks->links()}}
+                <div class="mt-1 pt-1">
+                    {{$stocks->links('pagination::bootstrap-4')}}
+                </div>
             </div>
         </div>
     </div>

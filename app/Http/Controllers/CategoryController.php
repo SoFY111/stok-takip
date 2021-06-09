@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -66,6 +67,35 @@ class CategoryController extends Controller
         } catch (Exception $ex) {
             toastr('Kategori eklenmedi. Error Code: 103', 'error');
             return redirect()->back();
+        }
+    }
+
+    public function ajaxStore(Request $request){
+        $lowerCategoryName = Str::lower($request->name);
+
+        $category = Category::where('isActive', 1)->where('name', $lowerCategoryName)->get()->count();
+        if ($category > 0) {
+            return response()->json(['type' => 0, 'message'=>'Aynı isme sahip başka kategori bulunmaktadır. Başka kategori ismi giriniz.']);
+        }
+
+        try {
+            $sluggedName = Str::slug($request->name);
+            while($category == 1){
+                $category = Category::where('isActive', 1)->where('slug', $sluggedName)->get()->count();
+                $sluggedName .= rand(0, 10);
+            }
+
+            Category::create([
+                'name' => $request->name,
+                'slug' => $sluggedName,
+                'color' => $request->favcolor
+            ]);
+
+            $lastId = Category::orderByDesc('id')->pluck('id');
+
+            return response()->json(['type' => 1, 'message'=>'Kategori başarılı bir şekilde eklendi.', 'lastId' => $lastId, 'categoryName' => $request->name]);
+        } catch (Exception $ex) {
+            return response()->json(['type' => 0, 'message'=>'Aynı isme sahip başka kategori bulunmaktadır. Başka kategori ismi giriniz.']);
         }
     }
 

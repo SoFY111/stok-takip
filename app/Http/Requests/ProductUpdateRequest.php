@@ -27,7 +27,7 @@ class ProductUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required|min:3',
-            'code' => 'required|digits:12',
+            'code' => 'required|digits:13',
             'categoryId' => 'required',
             'brandId' => 'required',
             'unitId' => 'required',

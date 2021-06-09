@@ -30,7 +30,7 @@
                 </div>
                 <div class="col-2">
                     <div class="d-flex flex-row align-items-center">
-                        <label class="h6 ml-2 mb-0 ml-s-2">Ürün Adı (*)</label>
+                        <label class="h6 ml-2 mb-0 ml-s-2">Ürün Adı (*) </label>
                     </div>
                 </div>
                 <div class="col-9 d-flex flex-row align-items-center justify-content-between">
@@ -38,7 +38,7 @@
                         <input type="text" name="name" class="form-control" value="{{old('name') ? old('name') : $product->name}}" />
                     </div>
                     <div class="d-flex flex-row align-items-center float-right">
-                        <a href="{{route('urunler.index')}}" class="btn btn-secondary" type="submit">Vazgeç</a>
+                        <a href="{{url()->previous()}}" class="btn btn-secondary" type="submit">Vazgeç</a>
                         <button class="btn btn-primary ml-1" type="submit">Kaydet</button>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                 </div>
                 <div class="col-9">
                     <div class="ml-5 w-50">
-                        <input type="text" name="code" id="code" maxlength="12" class="form-control" value="{{old('code') ? old('code') : $product->code}}"/>
+                        <input type="text" name="code" id="code" maxlength="13" class="form-control" value="{{old('code') ? old('code') : $product->code}}"/>
                     </div>
                 </div>
             </div>

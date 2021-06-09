@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Exception;
@@ -32,7 +33,14 @@ class ProductController extends Controller
             $products = $products->where('name', 'LIKE', "%".request()->get('filterSearch')."%")->where('isActive', 1);
         }
         if(request()->get('filterSearch') OR request()->get('filterSearch') == 0){
-            $products = $products->orWhere('code', 'LIKE', "%".request()->get('filterSearch')."%");
+            $products = $products->orWhere('description', 'LIKE', "%".request()->get('filterSearch')."%")->where('isActive', 1);
+        }
+        if(request()->get('filterSearch') OR request()->get('filterSearch') == 0){
+            $products = $products->orWhere('code', 'LIKE', "%".request()->get('filterSearch')."%")->where('isActive', 1);
+        }
+        if(request()->get('filterSearch') OR request()->get('filterSearch') == 0){
+            $categoryIds = Category::where('isActive', 1)->where('name', 'LIKE', '%'.request()->get('filterSearch').'%')->get('id');
+            $products = $products->orWhereIn('categoryId', $categoryIds)->where('isActive', 1);
         }
         $products = $products->where('isActive', 1)->paginate(10);
         return view('products.index', compact('products'));
@@ -69,6 +77,13 @@ class ProductController extends Controller
             return redirect()->back();
         }
 
+        $count = Product::where('isActive', 1)->where('code', 'LIKE', '%'.$request->code.'%')->get()->count();
+        if($count > 0){
+            toastr('Aynı barkod numarasına sahip başka bir ürün var. Lütfen başka barkod numarası giriniz.', 'error');
+            return redirect()->back();
+        }
+
+
         $request->merge([
             'image' => null,
             'slug' => Str::slug($request->name),
@@ -99,12 +114,34 @@ class ProductController extends Controller
             ]);
         }
 
+        $lastProductId = Product::select('id')->orderByDesc('id')->first('id');
+        $lastId = $lastProductId->id + 1;
+
         try {
             Product::create($request->post());
+
+            try {
+                Stock::create([
+                    'transactionNumber' => Str::orderedUuid()->toString(),
+                    'productId' => $lastId,
+                    'sumProductCount' => $request->startingStockCount,
+                    'sumTradingVolume' => doubleval($request->startingStockCount) * doubleval($request->sellingPrice ? $request->sellingPrice : 0),
+                    'supplier' => 'Ürün ekleme',
+                    'adress' => '',
+                    'date' => explode('+', date('c', strtotime((new \DateTime())->format('Y-m-d H:i'))))[0],
+                    'inOrOut' => 1,
+                    'description' => 'Ürün ekleme',
+                ]);
+            }catch (Exception $e){
+                toastr('Ürün eklenemdi. '. $e->getMessage(), 'error');
+                return redirect()->route('urunler.index');
+            }
+
             toastr('Ürün başarılı bir şekilde eklendi.', 'success');
             return redirect()->route('urunler.index');
         }
         catch (Exception $e){
+            Stock::orderByDesc('id')->limit(1)->delete();
             toastr('Ürün eklenemdi', 'error');
             return redirect()->route('urunler.index');
         }
@@ -193,7 +230,7 @@ class ProductController extends Controller
             Product::where('id', $id)->update([
                 'name' => $request->name,
                 'slug' => Str::slug($request->name),
-                'code' => $request->code . checkLastDigitEAN($request->code),
+                'code' => $request->code,
                 'categoryId' => $request->categoryId,
                 'brandId' => $request->brandId,
                 'unitId' => $request->unitId,
