@@ -58,13 +58,13 @@
             </ul>
             <div class="tab-content p-3" id="myTabContent0">
                 <div class="tab-pane fade show active" id="home0" role="tabpanel" aria-labelledby="home-tab0">
-                    <x-stock-mobility type="all" productId="{{$product->id}}" />
+                    <x-stock-mobility type="all" productId="{{$product->id}}"></x-stock-mobility>
                 </div>
                 <div class="tab-pane fade" id="profile0" role="tabpanel" aria-labelledby="profile-tab0">
-                    <x-stock-mobility type="in" productId="{{$product->id}}"/>
+                    <x-stock-mobility type="in" productId="{{$product->id}}"></x-stock-mobility>
                 </div>
                 <div class="tab-pane fade" id="contact0" role="tabpanel" aria-labelledby="contact-tab0">
-                    <x-stock-mobility type="out" productId="{{$product->id}}"/>
+                    <x-stock-mobility type="out" productId="{{$product->id}}"></x-stock-mobility>
                 </div>
             </div>
         </div>
