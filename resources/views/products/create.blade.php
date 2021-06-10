@@ -80,7 +80,7 @@
                                 <option value="{{$category->id}}" {{old('categoryId') == $category->id ? 'selected' : ''}}>{{$category->name}}</option>
                             @endforeach
                         </select>
-                        <i class="fas fa-plus-square text-primary ml-2 fs-20 cursorPointer" title="Kategori Ekle" role="button" data-toggle="modal" data-target="#categoryModal"></i>
+                        <i class="fas fa-plus-square text-primary ml-2 fs-28 cursorPointer" title="Kategori Ekle" role="button" data-toggle="modal" data-target="#categoryModal"></i>
                     </div>
                 </div>
             </div>
@@ -103,7 +103,7 @@
                                 <option value="{{$brand->id}}" {{old('brandId') == $brand->id ? 'selected' : ''}}>{{$brand->name}}</option>
                             @endforeach
                         </select>
-                        <i class="fas fa-plus-square text-primary ml-2 fs-20 cursorPointer" title="Marka Ekle" role="button" data-toggle="modal" data-target="#brandModal"></i>
+                        <i class="fas fa-plus-square text-primary ml-2 fs-28 cursorPointer" title="Marka Ekle" role="button" data-toggle="modal" data-target="#brandModal"></i>
                     </div>
                 </div>
             </div>
@@ -126,7 +126,7 @@
                                 <option value="{{$unit->id}}" {{old('unitId') == $unit->id ? 'selected' : ''}}>{{$unit->name}}</option>
                             @endforeach
                         </select>
-                        <i class="fas fa-plus-square text-primary ml-2 fs-20 cursorPointer" title="Birim Ekle" role="button" data-toggle="modal" data-target="#unitModal"></i>
+                        <i class="fas fa-plus-square text-primary ml-2 fs-28 cursorPointer" title="Birim Ekle" role="button" data-toggle="modal" data-target="#unitModal"></i>
                     </div>
                 </div>
             </div>
@@ -224,7 +224,8 @@
             <div class="form-group d-flex flex-row align-items-center">
                 <div class="sm-col-custom-1 ml-sm-1">
                     <span class="h2 mb-0 d-flex align-items-center">
-                            <i class="fas fa-tag"></i>
+                        <i class="fas fa-hand-holding-usd fa-rotate-180 fa-flip-horizontal"></i>
+{{--                            <i class="fas fa-tag"></i>--}}
                     </span>
                 </div>
                 <div class="col-2">
@@ -243,7 +244,8 @@
             <div class="form-group d-flex flex-row align-items-center">
                 <div class="sm-col-custom-1 ml-sm-1">
                     <span class="h2 mb-0 d-flex align-items-center">
-                            <i class="fas fa-tag"></i>
+                        <i class="fas fa-hand-holding-usd"></i>
+{{--                            <i class="fas fa-tag"></i>--}}
                     </span>
                 </div>
                 <div class="col-2">

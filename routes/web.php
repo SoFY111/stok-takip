@@ -42,6 +42,8 @@ Route::group(['middleware' => 'isLogged'], function(){
     Route::post('birimler/ajaxstore', [UnitController::class, 'ajaxStore'])->name('birimler.ajaxStore');
     Route::post('markalar/ajaxstore', [BrandController::class, 'ajaxStore'])->name('markalar.ajaxStore');
 
+    Route::get('stok/getinstocktransactions/{id}/{type}', [StockController::class, 'getInStockTransactions'])->name('stok.getinstocktransactions');
+
     Route::resource('urunler', ProductController::class);
     Route::resource('markalar', BrandController::class);
     Route::resource('birimler', UnitController::class);

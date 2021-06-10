@@ -44,13 +44,13 @@
                             <img src="{{$product->image ? $product->image : asset('images/unknown-pp.png')}}" width="40" height="40" class="rounded image-s">
                         </span>
                         <span class="hoverItem-s d-flex align-items-center justify-content-center-sm flex-row flex-column-sm" style="width: 35%;">
-                            <a href="{{route('urunler.show', $product->id)}}" class="">{{$product->name}}</a>
+                            <a href="{{route('urunler.show', $product->slug)}}" class="">{{$product->name}}</a>
                             <span class="rounded-pill ml-2 p-1 px-2 {{hexColorContrast($product->categoryDetails->color) ? 'text-white font-weight-bold' : 'text-gray-900 font-weight-bold'}} text-xs" style="background-color: {{$product->categoryDetails->color}}">{{$product->categoryDetails->name}}</span>
                         </span>
                         <span class="text-center hoverItem-s" style="width: 15%;" title="@if($product->followStock == 1) {{$product->CalcuteStockCount <= $product->criticStockAlert ? 'Kritik Stok Uyarısı' : ''}} @endif ">
                             @if($product->followStock == 1) @if($product->CalcuteStockCount <= $product->criticStockAlert) <small><i class="fas fa-info-circle text-danger"></i></small> @endif @endif
                             <span class="font-weight-bold @if($product->followStock == 1) {{$product->CalcuteStockCount <= $product->criticStockAlert ? 'text-danger' : ''}} @endif">{{sprintf("%.2f", $product->CalcuteStockCount)}}</span>
-                            <small class="@if($product->followStock == 1) {{$product->CalcuteStockCount <= $product->criticStockAlert ? 'fw-sm ' : 'text-gray-500'}} @endif ">{{$product->unitDetails->name}}</small>
+                            <small class="@if($product->followStock == 1) {{$product->CalcuteStockCount <= $product->criticStockAlert ? 'fw-sm ' : 'text-gray-500'}} @else text-gray-500 @endif ">{{$product->unitDetails->name}}</small>
                         </span>
                         <span class="text-center hoverItem-s" style="width: 15%;">{{$product->sellingPrice ? $product->sellingPrice. '₺' : 'Belirtilmedi'}}</span>
                         <span class="text-center hoverItem-s" style="width: 15%;">

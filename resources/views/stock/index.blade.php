@@ -34,30 +34,14 @@
                     <span class="text-center" style="width: 15%;">Tarih</span>
                 </div>
                 @foreach($stocks as $stock)
-                    <div class="hover hover-s d-flex flex-sm-row flex-row align-items-center justify-content-center w-100 mt-2 bg-white p-2 rounded flex-sm-row ">
-                        <span class="text-center hoverItem-s d-none-m" style="width: 5%;">
-                            @if($stock->inOrOut == 0)
-                                <i class='fas fa-truck fa-rotate-180 fa-flip-horizontal bg-gray-300 p-2 rounded' style="font-size: 20px"></i>
-                            @else
-                                <i class='fas fa-truck bg-gray-300 p-2 rounded' style="font-size: 20px"></i>
-                            @endif
-                        </span>
-                        <span class="hoverItem-s d-flex align-items-center justify-content-center-sm flex-row ml-2" style="width: 35%;">
-                            <a href="{{route('urunler.show', $stock->productDetails->slug)}}">{{$stock->productDetails->name}}</a>
-                        </span>
-                        <span class="text-center hoverItem-s " style="width: 15%;">
-                            {{$stock->inOrOut == 0 ? 'Stok Çıkışı' : 'Stok Girişi'}}
-                        </span>
-                        <span class="text-center hoverItem-s " style="width: 15%;">
-                            <span class="font-weight-bold">{{sprintf("%.2f", $stock->sumProductCount)}}</span> <span class="text-gray-500">{{$stock->productDetails->unitDetails->name}}</span>
-                        </span>
-                        <span class="text-center hoverItem-s " style="width: 15%;">
-                            {{$stock->supplier}}
-                        </span>
-                        <span class="text-center hoverItem-s " style="width: 15%;">
-                            <span title="{{date('d/m/Y', strtotime($stock->date))}} {{explode(' ', $stock->date)[1]}}">{{$stock->date ? \Carbon\Carbon::parse($stock->date)->diffForHumans() : 'Belirtilmedi'}}</span>
-                        </span>
-                    </div>
+                    <x-stock-li-item
+                            inOrOut="{{$stock->inOrOut}}"
+                            stockDate="{{$stock->date}}"
+                            stockProductDetailsName="{{$stock->productDetails->name}}"
+                            stockProductDetailsSlug="{{$stock->productDetails->slug}}"
+                            stockProductUnitDetailsName="{{$stock->productDetails->unitDetails->name}}"
+                            stockSumProductCount="{{$stock->sumProductCount}}"
+                            stockSupplier="{{$stock->supplier}}"></x-stock-li-item>
                 @endforeach
                 <div class="mt-1 pt-1">
                     {{$stocks->links('pagination::bootstrap-4')}}
@@ -66,7 +50,6 @@
         </div>
     </div>
 @endsection
-
 @section('css')
     <link rel="stylesheet" href="{{asset('back/css/table.css')}}">
 @endsection

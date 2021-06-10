@@ -27,4 +27,5 @@
     <!-- Toastr -->
     @toastr_css
     @yield('css')
+    @yield('componentCss')
 </head>

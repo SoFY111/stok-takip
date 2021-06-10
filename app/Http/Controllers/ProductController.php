@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Stock;
+use Doctrine\DBAL\Driver\AbstractSQLServerDriver\Exception\PortWithoutHost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Exception;
@@ -153,9 +154,11 @@ class ProductController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $product = Product::where('slug', $slug)->first();
+//        return response()->json(\View::make('products.show', ['product' => $product])->render());
+        return view('products.show', compact('product'));
     }
 
     /**
@@ -255,6 +258,7 @@ class ProductController extends Controller
     public function delete($id){
         try {
             Product::where('id', $id)->update(['isActive'=>0]);
+            Stock::where('productId', $id)->update(['productIsActive' => 0]);
             toastr('Ürün başarılı bir şekilde silindi', 'success');
             return redirect()->route('urunler.index');
         }catch (Exception $ex){

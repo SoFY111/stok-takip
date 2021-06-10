@@ -24,9 +24,23 @@
     z-index: 9999;
 }
 
+.w-5{
+    width: 5% !important;
+}
+
 .fs-20{
+    font-size: 20px;
+}
+
+.fs-28{
     font-size: 28px;
 }
+
+.fw-sm{
+    color: #EB8E84;
+    font-weight: 400;
+}
+
 
 @media only screen and (max-width: 550px) {
     .ml-s-2 {

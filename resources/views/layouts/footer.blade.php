@@ -70,6 +70,7 @@
 @toastr_js
 @toastr_render
 @yield('js')
+@yield('componentJs')
 
 </body>
 

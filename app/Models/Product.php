@@ -70,7 +70,7 @@ class Product extends Model
         "isActive",
     ];
 
-    protected $appends = ['CalcuteStockCount'];
+    protected $appends = ['CalcuteStockCount', 'StockMobility'];
 
     public function categoryDetails(){
         return $this->hasOne('App\Models\Category', 'id', 'categoryId');
@@ -85,9 +85,16 @@ class Product extends Model
     }
 
     public function getCalcuteStockCountAttribute(){
-        $sumInputTotal = $this->stocks()->where('inOrOut', 1)->where('date', '<', date('Y-m-d H:i:s'))->sum('sumProductCount');
-        $sumOutputTotal = $this->stocks()->where('inOrOut', 0)->where('date', '<', date('Y-m-d H:i:s'))->sum('sumProductCount');
+        $sumInputTotal = $this->stocks()->where('isActive', 1)->where('inOrOut', 1)->where('date', '<', date('Y-m-d H:i:s'))->sum('sumProductCount');
+        $sumOutputTotal = $this->stocks()->where('isActive', 1)->where('inOrOut', 0)->where('date', '<', date('Y-m-d H:i:s'))->sum('sumProductCount');
         return $sumInputTotal - $sumOutputTotal;
+    }
+
+    public function getStockMobilityAttribute(){
+        $stockMobility = new \stdClass();
+        $stockMobility->in = $this->stocks()->where('isActive', 1)->where('inOrOut', 1)->get();
+        $stockMobility->out = $this->stocks()->where('isActive', 1)->where('inOrOut', 0)->get();
+        return $stockMobility;
     }
 
 }

@@ -24,38 +24,37 @@ class StockController extends Controller
     public function index()
     {
         $activeProductsIds= Product::where('isActive', 1)->pluck('id');
-        $stocks = Stock::whereIn('productId', $activeProductsIds)->orderByDesc('date');
-
+        $stocks = Stock::whereIn('productId', $activeProductsIds)->orderByDesc('date')->where('isActive', 1)->where('productIsActive', 1);
         if(request()->get('filterSearch') OR request()->get('filterSearch') == 0){
             $searchedProductId = Product::where('isActive', 1)->where('name', 'LIKE', '%'.request()->get('filterSearch').'%')->pluck('id');
-            $stocks = Stock::whereIn('productId', $searchedProductId)->where('isActive', '1');
+            $stocks = $stocks->whereIn('productId', $searchedProductId)->where('isActive', '1')->where('productIsActive', 1);
+
         }
-        if(request()->get('filterSearch') OR request()->get('filterSearch') == 0){
-            if(    strpos(request()->get('filterSearch'), 'giriş') === true
-                OR strpos(request()->get('filterSearch'), 'girdi') === true
-                OR strpos(request()->get('filterSearch'), 'stok girişi') === true
-                OR strpos(request()->get('filterSearch'), 'stok girdi') === true
-                OR strpos(request()->get('filterSearch'), 'g')){
-                $stocks=$stocks->orWhere('inOrOut', 1)->where('isActive', 1);
-            }elseif(strpos(request()->get('filterSearch'), 'çıkış') === true
-                 OR strpos(request()->get('filterSearch'), 'stok çıkışı') === true
-                 OR strpos(request()->get('filterSearch'), 'stok çıktısı') === true
-                 OR strpos(request()->get('filterSearch'), 'ç')){
-                $stocks=$stocks->orWhere('inOrOut', 0)->where('isActive', 1);
+        if(request()->get('filterSearch')){
+            if(   str_contains('giriş', request()->get('filterSearch'))
+               OR str_contains('stok girişi', request()->get('filterSearch'))
+               OR str_contains('stok girdisi', request()->get('filterSearch'))
+               OR str_contains('girdi', request()->get('filterSearch'))){
+                $stocks=$stocks->orWhere('inOrOut', 1)->where('isActive', 1)->where('productIsActive', 1);
+
+            }elseif(str_contains('çıkış', request()->get('filterSearch'))
+                 OR str_contains('stok çıkışı', request()->get('filterSearch'))
+                 OR str_contains('stok çıktısı', request()->get('filterSearch'))
+                 OR str_contains('çıktı', request()->get('filterSearch'))){
+                $stocks=$stocks->orWhere('inOrOut', 0)->where('isActive', 1)->where('productIsActive', 1);
             }
         }
         if(request()->get('filterSearch')){
-            $stocks= $stocks->orWhere('sumProductCount', request()->get('filterSearch'))->where('isActive', 1);
+            $stocks= $stocks->orWhere('sumProductCount', request()->get('filterSearch'))->where('isActive', 1)->where('productIsActive', 1);
         }
         if(request()->get('filterSearch') OR request()->get('filterSearch') == 0){
-            $stocks= $stocks->orWhere('supplier', 'LIKE' , '%'.request()->get('filterSearch').'%')->where('isActive', 1);
-
+            $stocks= $stocks->orWhere('supplier', 'LIKE' , '%'.request()->get('filterSearch').'%')->where('isActive', 1)->where('productIsActive', 1);
         }
         if(request()->get('filterSearch') OR request()->get('filterSearch') == 0){
-            $date = date('Y-m-d', strtotime(str_replace('-', '/', request()->get('filterSearch'))));
+            $date = date('Y-d-m', strtotime(str_replace('-', '/', request()->get('filterSearch'))));
             $dateOne = $date . ' 00:00:00';
             $dateTwo = $date . ' 23:59:59';
-            $stocks= $stocks->orWhere('date', '>' , $dateOne)->where('date', '<', $dateTwo)->where('isActive', 1);
+            $stocks= $stocks->orWhere('date', '>' , $dateOne)->where('date', '<', $dateTwo)->where('isActive', 1)->where('productIsActive', 1);
         }
 
         $stocks = $stocks->paginate(10);
@@ -155,5 +154,17 @@ class StockController extends Controller
     {
         $productUnitName = Product::find($request->id)->unitDetails->name;
         return response()->json($productUnitName);
+    }
+
+    public function getInStockTransactions($id, $type){
+        if(explode('=', \request()->getQueryString())[0] == 'page'){
+            $page = \request()->getQueryString();
+            $pageNumber = explode('=', $page)[1];
+        }
+        else $pageNumber = 0;
+        if($type === 'in') $stocks = Stock::where('isActive', 1)->where('productId', $id)->where('inOrOut', 1)->orderByDesc('date')->paginate(9, ['*'], 'page', $pageNumber);
+        elseif($type === 'out') $stocks = Stock::where('isActive', 1)->where('productId', $id)->where('inOrOut', 0)->orderByDesc('date')->paginate(9, ['*'], 'page', $pageNumber);
+        else $stocks = Stock::where('isActive', 1)->where('productId', $id)->orderByDesc('date')->paginate(9, ['*'], 'page', $pageNumber);
+        return response()->json(\View::make('components.stock-mobility', ['stocks' => $stocks, 'type' => $type, 'productId' => $id])->render());
     }
 }

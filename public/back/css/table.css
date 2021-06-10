@@ -7,6 +7,16 @@
     background-color: rgba(0,0,0,.02) !important;
 }
 
+.hover-products{
+    transition: all .3s ease-in-out !important;
+    background-color: rgba(0,0,0,.02) !important;
+}
+
+.hover-products:hover{
+
+    background: #fff !important;
+}
+
 .fw-sm{
     color: #EB8E84;
     font-weight: 400;
