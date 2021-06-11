@@ -12,7 +12,10 @@ class DashboardController extends Controller
 {
     function dashboard(){
         $stocks = new \stdClass();
+        $criticStockProducts = array();
+
         $products = Product::where('isActive', 1)->orderByDesc('id')->limit(5)->get();
+        $allActiveProducts = Product::where('isActive', 1)->orderByDesc('id')->get();
         $stocks->upComingStocks = Stock::where('isActive', 1)
             ->where('productIsActive', 1)
             ->where('date', '>', (now()))
@@ -26,6 +29,10 @@ class DashboardController extends Controller
             ->orderByDesc('date')
             ->limit(5)
             ->get();
-        return view('dashboard', compact('stocks', 'products'));
+        foreach ($allActiveProducts as $product){
+            if($product->CalcuteStockCount < $product->criticStockAlert) $criticStockProducts[] = $product;
+        }
+
+        return view('dashboard', compact('stocks', 'products', 'criticStockProducts'));
     }
 }

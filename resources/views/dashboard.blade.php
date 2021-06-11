@@ -34,6 +34,58 @@
     </div>
 
     <div class="col-12 mt-3">
+        <div class="card border-left-danger shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-danger">Kritil Stok Uyarısı</h6>
+            </div>
+            <div class="card-body d-flex flex-column align-items-center justify-content-between hover-s">
+                <div class="d-flex flex-row align-items-center justify-content-between w-100 mb-1 header-s d-none-m d-none-mdlg">
+                    <span class="text-center" style="width: 5%;">#</span>
+                    <span style="width: 35%;">Adı</span>
+                    <span class="text-center" style="width: 15%;">Stok Miktarı</span>
+                    <span class="text-center" style="width: 15%;">Satış Fiyatı</span>
+                    <span class="text-center" style="width: 15%;">Barkod Numarası</span>
+                </div>
+                <div class="p-0 w-100 px-sm-3-custom" id="">
+                    @if($criticStockProducts->count == 0)
+                        <div class="alert alert-warning">
+                            <span>Kritik stokta herhangi bir ürününüz bulunmuyor.</span>
+                        </div>
+                    @endif
+                    <div class="list-wrapper">
+                        @foreach($criticStockProducts as $product)
+                            <div class="list-item">
+                                <div class="hover-products hover-s d-flex flex-sm-row flex-row align-items-center justify-content-between w-100 mt-2 bg-white p-2 rounded flex-sm-row flex-lg-row flex-md-column">
+                                    <span class="text-center hoverItem-s d-none-m w-mdlg-100" style="width: 5%;">
+                                        <img src="{{$product->image ? $product->image : asset('images/unknown-pp.png')}}" width="40" height="40" class="rounded image-s">
+                                    </span>
+                                    <span class="hoverItem-s d-flex align-items-center justify-content-center-sm flex-row flex-column-sm flex-md-column flex-lg-row w-mdlg-100" style="width: 35%;">
+                                        <a href="{{route('urunler.show', $product->slug)}}" class="">{{$product->name}}</a>
+                                        <span class="rounded-pill ml-2 p-1 px-2 {{hexColorContrast($product->categoryDetails->color) ? 'text-white font-weight-bold' : 'text-gray-900 font-weight-bold'}} text-xs" style="background-color: {{$product->categoryDetails->color}}">{{$product->categoryDetails->name}}</span>
+                                    </span>
+                                    <span class="text-center hoverItem-s w-mdlg-100" style="width: 15%;" title="@if($product->followStock == 1) {{$product->CalcuteStockCount <= $product->criticStockAlert ? 'Kritik Stok Uyarısı' : ''}} @endif ">
+                                        @if($product->followStock == 1) @if($product->CalcuteStockCount <= $product->criticStockAlert) <small><i class="fas fa-info-circle text-danger"></i></small> @endif @endif
+                                        <span class="font-weight-bold @if($product->followStock == 1) {{$product->CalcuteStockCount <= $product->criticStockAlert ? 'text-danger' : ''}} @endif">{{sprintf("%.2f", $product->CalcuteStockCount)}}</span>
+                                        <small class="@if($product->followStock == 1) {{$product->CalcuteStockCount <= $product->criticStockAlert ? 'fw-sm ' : 'text-gray-500'}} @else text-gray-500 @endif ">{{$product->unitDetails->name}}</small>
+                                    </span>
+                                    <span class="text-center hoverItem-s w-mdlg-100" style="width: 15%;">{{$product->sellingPrice ? $product->sellingPrice. '₺' : 'Belirtilmedi'}}</span>
+                                    <span class="text-center hoverItem-s w-mdlg-100" style="width: 15%;">
+                                        <?php
+                                        echo DNS1D::getBarcodeSVG($product->code, 'EAN13', 1, 40); //EAN13 barCode
+                                        ?>
+                                    </span>
+                                </div>
+                            </div>
+
+                        @endforeach
+                    </div>
+                    <div id="pagination-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 mt-3">
         <div class="row hover-s mw-100 mx-sm-0-custom mx-md-0-custom mx-0 mb-4">
             <div class="col-6 col-md-12-custom col-sm-12-custom px-sm-0-custom px-md-0-custom pl-0 pl-sm-0-custom pl-md-0-custom">
                 <div class="card shadow h-100">
@@ -72,7 +124,7 @@
                                     <span class="text-center hoverItem-s w-mdlg-100" style="width: 15%;">
                                         <?php
                                             echo DNS1D::getBarcodeSVG($product->code, 'EAN13', 1, 40); //EAN13 barCode
-                                            ?>
+                                        ?>
                                     </span>
                                 </div>
                             @endforeach
@@ -160,4 +212,26 @@
 
 @section('js')
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.5.0/mdb.min.js"></script>
+    <script type="text/javascript" src="{{asset('back/js/jqueryPaginate.js')}}"></script>
+    <script>
+        $(document).ready(function(){
+            const items = $(".list-wrapper .list-item"),
+                  numItems = items.length,
+                  perPage = 5;
+
+            items.slice(perPage).hide();
+
+            $('#pagination-container').pagination({
+                items: numItems,
+                itemsOnPage: perPage,
+                prevText: "&laquo;",
+                nextText: "&raquo;",
+                onPageClick: function (pageNumber) {
+                    const showFrom = perPage * (pageNumber - 1);
+                    const showTo = showFrom + perPage;
+                    items.hide().slice(showFrom, showTo).show();
+                }
+            });
+        });
+    </script>
 @endsection
