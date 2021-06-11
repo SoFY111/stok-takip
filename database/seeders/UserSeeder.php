@@ -16,10 +16,18 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::insert([
-            'name' => 'Hakan DİNÇTÜRK',
-            'email' => 'test@example.com',
-            'password' => bcrypt('deneme12345'), // password
-            'role' => 'owner',
+            [
+                'name' => 'Hakan DİNÇTÜRK',
+                'email' => 'test@example.com',
+                'password' => bcrypt('deneme12345'), // password
+                'role' => 'owner',
+            ],
+            [
+                'name' => 'Admin User Test',
+                'email' => 'adminuser@example.com',
+                'password' => bcrypt('deneme12345'), // password
+                'role' => 'admin',
+            ]
         ]);
     }
 }

@@ -80,14 +80,13 @@ class StockController extends Controller
      */
     public function store(StockCreteRequest $request)
     {
-        $productPrice = Product::select('sellingPrice')->where('id', $request->productId)->first();
+        $productPrice = Product::select(['sellingPrice', 'buyingPrice'])->where('id', $request->productId)->first();
         $request->merge([
             'transactionNumber' => Str::orderedUuid()->toString(),
             'sumProductCount' => $request->quantity,
-            'sumTradingVolume' => (doubleval($request->quantity) * doubleval($productPrice->sellingPrice)),
-            'inOrOut' => $request->inOrOut == 'out' ? 0 : 1,
+            'sumTradingVolume' => (doubleval($request->quantity) * doubleval($request->inOrOut === 'out' ? $productPrice->sellingPrice : $productPrice->buyingPrice)),
+            'inOrOut' => $request->inOrOut === 'out' ? 0 : 1,
         ]);
-
         try {
             Stock::create($request->post());
             toastr('Stok işlemi bir şekilde eklendi.', 'success');

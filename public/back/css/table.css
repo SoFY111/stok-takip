@@ -13,7 +13,6 @@
 }
 
 .hover-products:hover{
-
     background: #fff !important;
 }
 
@@ -43,6 +42,12 @@
         align-items: center !important;
         justify-content: center !important;
     }
+
+    .margin-x-sm{
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
     .hoverItem-s{
         width: 100% !important;
         margin-bottom: 5px;
@@ -64,10 +69,112 @@
     .flex-column-sm{
         flex-direction: column !important;
     }
+
+    .p-sm-0-custom{
+        padding: 0px;
+    }
+
+    .pl-sm-1-custom{
+        padding-left: .25rem !important;
+    }
+
+    .pr-sm-1-custom{
+        padding-right: .25rem !important;
+    }
+
+    .pt-sm-1-custom{
+        padding-top: .25rem !important;
+    }
+
+    .px-sm-0-custom{
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .px-sm-3-custom{
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
+    .text-center-sm-custom{
+        text-align: center !important;
+    }
+
+    .ml-sm-0-custom{
+        margin-left: 0 !important;
+    }
+
+    .mr-sm-0-custom{
+        margin-right: 0 !important;
+    }
+
+    .mt-sm-0-custom{
+        margin-top: 0 !important;
+    }
+
+    .mb-sm-0-custom{
+        margin-bottom: 0 !important;
+    }
+
+    .mx-sm-0-custom{
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .col-sm-12-custom{
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
 }
 
 @media only screen and (min-width: 550px) and (max-width: 850px){
     .d-none-m{
         display: none;
+    }
+
+    .col-md-12-custom{
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .ml-md-0-custom{
+        margin-left: 0 !important;
+    }
+
+    .mr-md-0-custom{
+        margin-right: 0 !important;
+    }
+
+    .mt-md-0-custom{
+        margin-top: 0 !important;
+    }
+
+    .mb-md-0-custom{
+        margin-bottom: 0 !important;
+    }
+
+    .mx-md-0-custom{
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .px-md-0-custom{
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .col-sm-12-custom{
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px){
+    .w-mdlg-100{
+        width: 100% !important;
+    }
+
+    .d-none-mdlg{
+        display: none !important;
     }
 }

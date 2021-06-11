@@ -2,13 +2,20 @@
 @section('title') {{$product->name}} @endsection
 @section('content')
     <div class="w-100 bg-white rounded">
-        <div class="h2 ml-4 pt-3 d-flex flex-row align-items-center">
-            <i class="fas fa-cube bg-gray-300 p-2 rounded-pill" ></i>
-            <span class="ml-2">{{$product->name}}</span>
+        <div class="mx-4 pt-3 d-flex flex-row align-items-center justify-content-between hover-s">
+            <div class="h2">
+                <i class="fas fa-cube bg-gray-300 p-2 rounded-pill" ></i>
+                <span class="ml-2">{{$product->name}}</span>
+            </div>
+            <div class="h4">
+                <a href="{{route('urunler.edit', $product->id)}}">
+                    <i class="fas fa-pen p-2 rounded bg-primary text-white" role="button"></i>
+                </a>
+            </div>
         </div>
         <hr>
-        <div class="header d-flex flex-row align-items-center px-3">
-            <div class="d-flex flex-row align-items-center flex-fill text-center">
+        <div class="header d-flex flex-row hover-s align-items-center px-3">
+            <div class="d-flex flex-row hover-s align-items-center flex-fill text-center">
                 <div class="p-1 flex-fill">
                     <small>Alış</small>
                     <span class="fs-20">{{$product->buyingPrice}}₺</span>
@@ -19,7 +26,6 @@
                 </div>
                 <div class="p-1 flex-fill">
                     <small title="KDV Oranı"><i class="fas fa-gavel"></i></small>
-{{--                    <small>KDV</small>--}}
                     <span class="fs-20">%{{$product->taxRate}}</span>
                 </div>
                 <div class="p-1 flex-fill" title="Stok Miktarı">
@@ -35,6 +41,12 @@
                     <span class="fs-20 @if($product->followStock == 1) {{$product->CalcuteStockCount <= $product->criticStockAlert ? 'text-danger font-weight-bold' : ''}} @endif">{{sprintf("%.2f", $product->CalcuteStockCount)}}</span>
                     <span class="@if($product->followStock == 1) {{$product->CalcuteStockCount <= $product->criticStockAlert ? 'fw-sm ' : 'text-gray-500'}} @else text-gray-500 @endif">{{$product->unitDetails->name}}</span>
                 </div>
+                @if($product->buyingPrice AND $product->sellingPrice)
+                    <div class="p-1 flex-fill @if($product->ProfitAndLoss > 0) text-success @elseif($product->ProfitAndLoss < 0) text-danger @elseif($product->ProfitAndLoss === 0) 'text-warning' @endif">
+                        <small title="Kâr"><i class="fas fa-chart-line"></i></small>
+                        <span class="fs-20">{{$product->ProfitAndLoss}}₺</span>
+                    </div>
+                @endif
             </div>
             <div class="w-25"></div>
             <div class="">

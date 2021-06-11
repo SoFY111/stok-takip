@@ -157,7 +157,6 @@ class ProductController extends Controller
     public function show($slug)
     {
         $product = Product::where('slug', $slug)->first();
-//        return response()->json(\View::make('products.show', ['product' => $product])->render());
         return view('products.show', compact('product'));
     }
 
